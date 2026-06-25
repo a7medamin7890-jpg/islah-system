@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>مجمع الإصلاح الطبي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+:root {
+  --primary:#1a3a5c; --primary2:#2563a8;
+  --red:#e63946; --green:#2d6a4f; --green2:#52b788;
+  --gold:#f4a261; --bg:#f0f4f8; --white:#fff;
+  --text:#1a1a2e; --gray:#6b7280; --border:#e2e8f0;
+  --shadow:0 4px 20px rgba(0,0,0,0.08); --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.hdr h1{font-size:17px;font-weight:900;flex:1}
+.hdr p{font-size:10px;opacity:.8}
+.bell-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;position:relative;flex-shrink:0}
+.bell-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;display:none}
+
+/* TABS */
+.tabs{background:#fff;display:flex;overflow-x:auto;border-bottom:3px solid var(--border);position:sticky;top:70px;z-index:190;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:12px 16px;border:none;background:none;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;white-space:nowrap;transition:.2s}
+.tab.on{color:var(--primary);border-bottom-color:var(--primary)}
+
+/* SECTIONS */
+.sec{display:none;padding:14px;max-width:860px;margin:0 auto;padding-bottom:70px}
+.sec.on{display:block}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.ctitle{font-size:15px;font-weight:900;color:var(--primary);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.scard{background:#fff;border-radius:var(--r);padding:14px;text-align:center;box-shadow:var(--shadow);border-top:4px solid}
+.snum{font-size:26px;font-weight:900}
+.slbl{font-size:11px;color:var(--gray);font-weight:700}
+
+/* BTN */
+.btn{padding:9px 16px;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.2s}
+.bp{background:var(--primary);color:#fff}.bp:hover{background:var(--primary2)}
+.br{background:var(--red);color:#fff}.br:hover{opacity:.9}
+.bg{background:var(--green);color:#fff}.bg:hover{background:var(--green2)}
+.bo{background:var(--gold);color:#fff}
+.bx{background:none;border:2px solid var(--primary);color:var(--primary)}.bx:hover{background:var(--primary);color:#fff}
+.sm{padding:5px 10px;font-size:11px;border-radius:7px}
+
+/* SEARCH */
+.sbox{display:flex;gap:8px;margin-bottom:12px}
+.sbox input,.sinp{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:.2s}
+.sbox input:focus,.sinp:focus{border-color:var(--primary2)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s}
+.chip.on,.chip:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* DOCTOR CARD */
+.dcard{background:#fff;border-radius:12px;border-right:5px solid var(--primary2);padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.dname{font-size:14px;font-weight:900;color:var(--primary)}
+.dspec{font-size:12px;color:var(--red);font-weight:700;margin:3px 0}
+.ddays{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.dbadge{padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.d0{background:#fde8e8;color:#c81e1e}
+.d1{background:#e8f4fd;color:#1e40af}
+.d2{background:#e8fdf0;color:#1e6a3a}
+.d3{background:#fdf6e8;color:#92400e}
+.d4{background:#f0e8fd;color:#6b21a8}
+.d5{background:#e8fdfd;color:#0e7490}
+.d6{background:#fdf0e8;color:#9a3412}
+
+/* ROW ITEMS */
+.trow{display:flex;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border);gap:8px;transition:.15s}
+.trow:hover{background:#f8fafc}
+.trow:last-child{border-bottom:none}
+.trow input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--primary);flex-shrink:0}
+.tcode{font-size:10px;color:var(--gray);font-weight:700;min-width:36px}
+.tname{flex:1;font-size:12px;font-weight:600}
+.tdesc{font-size:10px;color:var(--gray)}
+.tprice{font-size:13px;font-weight:900;color:var(--green);min-width:52px;text-align:left}
+
+/* CAT HEADER */
+.cath{background:var(--primary);color:#fff;padding:8px 12px;border-radius:10px 10px 0 0;font-size:12px;font-weight:900;display:flex;justify-content:space-between;cursor:pointer}
+.catb{border:2px solid var(--primary);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;margin-bottom:14px}
+
+/* CART */
+.cartbox{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:var(--r);padding:14px;margin-bottom:14px}
+.cartbox h3{font-size:13px;font-weight:900;margin-bottom:10px}
+.citem{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:12px}
+.citem:last-child{border-bottom:none}
+.ctotal{background:var(--gold);color:#fff;border-radius:10px;padding:10px;font-size:15px;font-weight:900;text-align:center;margin-top:10px}
+.rmv{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:4px;padding:2px 7px;cursor:pointer;font-size:12px}
+
+/* BOTTOM STRIP */
+.strip{position:fixed;bottom:0;left:0;right:0;background:var(--primary);color:#fff;padding:11px 18px;display:none;align-items:center;justify-content:space-between;z-index:180;box-shadow:0 -4px 16px rgba(0,0,0,.2)}
+.strip-amt{font-size:18px;font-weight:900}
+.strip-cnt{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px}
+
+/* CAM */
+.cambox{background:linear-gradient(135deg,#0f0f23,#1a1a3e);border-radius:var(--r);padding:18px;text-align:center;color:#fff;margin-bottom:14px}
+.cambox .ci{font-size:44px;margin-bottom:8px}
+.cambox p{font-size:12px;opacity:.8;margin-bottom:12px}
+.filelbr{display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:var(--gold);color:#fff;border-radius:11px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+#presFile{display:none}
+.aibox{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border-radius:12px;padding:14px;margin-top:10px;text-align:right;display:none}
+.aibox h4{font-size:13px;font-weight:900;margin-bottom:8px}
+
+/* MODAL */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:14px}
+.moverlay.on{display:flex}
+.modal{background:#fff;border-radius:18px;padding:20px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:16px;font-weight:900;color:var(--primary);margin-bottom:16px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11px;font-weight:700;color:var(--gray);margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none}
+.fg input:focus,.fg select:focus{border-color:var(--primary2)}
+.mact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.daych{display:flex;flex-wrap:wrap;gap:6px}
+.daylbl{padding:6px 10px;border:2px solid var(--border);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s}
+.daylbl.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.daylbl input{display:none}
+
+/* NOTIF PANEL */
+.npanel{position:fixed;inset:0;z-index:500;display:none}
+.npanel.on{display:block}
+.nbg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.ndrawer{position:absolute;top:0;right:0;width:320px;max-width:95vw;height:100%;background:#fff;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,.2)}
+.nhdr{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between}
+.nhdr h3{font-size:15px;font-weight:900}
+.nclose{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer}
+.nitem{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s}
+.nitem:hover{background:#f8fafc}
+.nitem.unread{background:#eff6ff}
+.nico{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.nico.red{background:#fee2e2}.nico.blue{background:#dbeafe}.nico.green{background:#d1fae5}.nico.gold{background:#fef3c7}
+.ntitle{font-size:13px;font-weight:900;margin-bottom:2px}
+.ndesc{font-size:11px;color:var(--gray)}
+.ntime{font-size:10px;color:var(--gray);margin-top:3px}
+.ndot{width:8px;height:8px;background:var(--red);border-radius:50%;margin-top:4px;flex-shrink:0}
+.nsec{background:#f8fafc;padding:8px 14px;font-size:11px;font-weight:900;color:var(--gray);border-bottom:1px solid var(--border)}
+
+/* SHIFT REPORT */
+.srep{background:#fff;border:2px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;display:none}
+.srep-hdr{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:12px 16px}
+.srep-hdr h3{font-size:14px;font-weight:900;margin-bottom:2px}
+.srep-hdr p{font-size:11px;opacity:.8}
+.srow{display:flex;justify-content:space-between;padding:9px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.srow:last-child{border-bottom:none}
+.sval{font-weight:900;color:var(--primary)}
+
+/* MISSING */
+.missbox{background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--r);padding:14px;margin-bottom:14px;display:none}
+.missbox h4{color:#92400e;font-size:13px;font-weight:900;margin-bottom:10px}
+.missitem{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dotted #fed7aa;font-size:12px}
+
+/* INVOICE */
+.invbox{border:2px solid var(--border);border-radius:var(--r);padding:16px;margin-top:12px}
+.invhdr{text-align:center;border-bottom:2px dashed var(--border);padding-bottom:12px;margin-bottom:12px}
+.invhdr h2{font-size:17px;font-weight:900;color:var(--primary)}
+.invhdr p{font-size:11px;color:var(--gray)}
+.invrow{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px dotted var(--border)}
+.invtotal{display:flex;justify-content:space-between;padding:10px 0;font-size:15px;font-weight:900;color:var(--primary);border-top:2px solid var(--primary);margin-top:6px}
+
+/* TOAST */
+.toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:9999;white-space:nowrap;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.empty{text-align:center;padding:32px 16px;color:var(--gray)}
+.empty .ei{font-size:44px;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <h1>🏥 مجمع الإصلاح الطبي</h1>
+    <p>المنصورة - نظام الإدارة الشامل</p>
+  </div>
+  <button class="bell-btn" onclick="openNotif()">
+    🔔<span class="bell-badge" id="bellBadge">0</span>
+  </button>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="go('home')">🏠 الرئيسية</button>
+  <button class="tab" onclick="go('docs')">👨‍⚕️ الدكاتره</button>
+  <button class="tab" onclick="go('sched')">📅 المواعيد</button>
+  <button class="tab" onclick="go('lab')">🧪 التحاليل</button>
+  <button class="tab" onclick="go('serv')">🏥 الخدمات</button>
+  <button class="tab" onclick="go('cash')">💰 الكاشير</button>
+  <button class="tab" onclick="go('prices')">💵 أسعار الكشف</button>
+  <button class="tab" onclick="go('print')">🖨️ طباعة الجدول</button>
+</div>
+
+<!-- ========== HOME ========== -->
+<div id="sec-home" class="sec on">
+  <div class="stats" id="statsGrid"></div>
+  <div class="srep" id="shiftRep">
+    <div class="srep-hdr">
+      <h3>📊 تقرير الشيفت الحالي</h3>
+      <p id="shiftTime"></p>
+    </div>
+    <div id="shiftRows"></div>
+    <div style="padding:12px 16px;display:flex;gap:8px">
+      <button class="btn bp" style="flex:1" onclick="go('cash')">💰 الكاشير</button>
+      <button class="btn bg sm" onclick="printShift()">🖨️ طباعة</button>
+      <button class="btn br sm" onclick="clearShift()">🔄 جلسة جديدة</button>
+    </div>
+  </div>
+  <div class="missbox" id="missBox">
+    <h4>⚠️ تحاليل طُلبت مش في قائمتنا</h4>
+    <div id="missList"></div>
+    <button class="btn bo sm" style="margin-top:8px" onclick="clearMiss()">🗑️ مسح</button>
+  </div>
+  <div class="card">
+    <div class="ctitle">📅 دكاتره اليوم</div>
+    <div id="todayDocs"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">⚡ إجراءات سريعة</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <button class="btn bp" onclick="go('lab')">📸 تصوير روشتة</button>
+      <button class="btn bg" onclick="go('cash')">💰 الكاشير</button>
+      <button class="btn br" onclick="go('docs');setTimeout(openAddDoc,200)">➕ دكتور جديد</button>
+      <button class="btn bo" onclick="go('sched')">📋 جدول اليوم</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DOCTORS ========== -->
+<div id="sec-docs" class="sec">
+  <div class="card">
+    <div class="ctitle">👨‍⚕️ فهرس الدكاتره
+      <button class="btn bp sm" style="margin-right:auto" onclick="openAddDoc()">➕ إضافة</button>
+    </div>
+    <div class="sbox">
+      <input placeholder="🔍 ابحث باسم أو تخصص..." oninput="renderDocs()">
+      <span id="searchDocEl" style="display:none"></span>
+    </div>
+    <div class="chips" id="specChips"></div>
+    <div id="docsContainer"></div>
+  </div>
+</div>
+
+<!-- ========== SCHEDULE ========== -->
+<div id="sec-sched" class="sec">
+  <div class="card">
+    <div class="ctitle">📅 مواعيد حسب اليوم</div>
+    <div id="nowDoctors" style="margin-bottom:12px"></div>
+    <div class="chips" id="dayChips"></div>
+    <div id="schedContainer"></div>
+  </div>
+</div>
+
+<!-- ========== LAB ========== -->
+<div id="sec-lab" class="sec">
+  <div class="cartbox" id="labCartBox" style="display:none">
+    <h3>🧺 التحاليل المختارة</h3>
+    <div id="labCartItems"></div>
+    <div class="ctotal" id="labCartTotal">المجموع: 0 جنيه</div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn bg" style="flex:1" onclick="makeInv('lab')">🧾 إنشاء فاتورة</button>
+      <button class="btn br sm" onclick="clearLabCart()">🗑️ مسح</button>
+    </div>
+  </div>
+  <div class="cambox">
+    <div class="ci">📷</div>
+    <p>صوّر الروشتة وهيحدد التحاليل تلقائياً بالذكاء الاصطناعي</p>
+    <label class="filelbr" for="presFile">📸 التقط صورة الروشتة</label>
+    <input type="file" id="presFile" accept="image/*" capture="environment" onchange="scanPres(this)">
+    <div id="aiLoading" style="display:none;margin-top:10px;color:#fff;font-size:13px">🤖 جاري تحليل الروشتة...</div>
+    <div class="aibox" id="aiBox"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">🧪 قائمة التحاليل
+      <button class="btn bg sm" style="margin-right:auto" onclick="openAddTest()">➕ إضافة</button>
+    </div>
+    <div class="sbox">
+      <input id="labSrch" placeholder="🔍 ابحث عن تحليل أو كود..." oninput="renderLab()">
+    </div>
+    <div id="labContainer"></div>
+  </div>
+</div>
+
+<!-- ========== SERVICES ========== -->
+<div id="sec-serv" class="sec">
+  <div class="cartbox" id="servCartBox" style="display:none">
+    <h3>🏥 الخدمات المختارة</h3>
+    <div id="servCartItems"></div>
+    <div class="ctotal" id="servCartTotal">المجموع: 0 جنيه</div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn bg" style="flex:1" onclick="makeInv('serv')">🧾 إنشاء فاتورة</button>
+      <button class="btn br sm" onclick="clearServCart()">🗑️ مسح</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle">🏥 خدمات المجمع
+      <button class="btn br sm" style="margin-right:auto" onclick="openAddServ()">➕ إضافة</button>
+    </div>
+    <div class="sbox">
+      <input id="servSrch" placeholder="🔍 ابحث عن خدمة أو قسم..." oninput="renderServ()">
+    </div>
+    <div class="chips" id="deptChips"></div>
+    <div id="servContainer"></div>
+  </div>
+</div>
+
+<!-- ========== CASHIER ========== -->
+<div id="sec-cash" class="sec">
+  <div class="card">
+    <div class="ctitle">💰 الكاشير - ملخص الجلسة</div>
+    <div id="cashContent"></div>
+  </div>
+</div>
+
+<!-- ========== PRICES ========== -->
+<div id="sec-prices" class="sec">
+  <div class="card">
+    <div class="ctitle">💵 أسعار الكشف بمجمع الإصلاح الطبي</div>
+    <div style="background:#eff6ff;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#1e40af;font-weight:700">
+      💡 كشف معظم العيادات = 90 جنيه
+    </div>
+    <div id="pricesContainer"></div>
+  </div>
+</div>
+
+<!-- ========== PRINT SCHEDULE ========== -->
+<div id="sec-print" class="sec">
+  <div class="card">
+    <div class="ctitle">🖨️ طباعة جدول الدكاتره</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+      <button class="btn bp" onclick="printSchedule('all')">🖨️ طباعة الكل</button>
+      <button class="btn bg" onclick="printSchedule('today')">📅 طباعة اليوم</button>
+    </div>
+    <div class="chips" id="printDayChips"></div>
+    <div id="printContainer"></div>
+  </div>
+</div>
+
+<!-- BOTTOM STRIP -->
+<div class="strip" id="strip">
+  <div>
+    <div style="font-size:11px;opacity:.8">المجموع الكلي</div>
+    <div class="strip-amt" id="stripAmt">0 جنيه</div>
+  </div>
+  <div class="strip-cnt" id="stripCnt">0 عنصر</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ========== NOTIF PANEL ========== -->
+<div class="npanel" id="npanel">
+  <div class="nbg" onclick="closeNotif()"></div>
+  <div class="ndrawer">
+    <div class="nhdr">
+      <h3>🔔 الإشعارات</h3>
+      <button class="nclose" onclick="closeNotif()">✕</button>
+    </div>
+    <div id="notifList"></div>
+  </div>
+</div>
+
+<!-- ========== MODALS ========== -->
+
+<!-- Doctor Modal -->
+<div class="moverlay" id="mDoc">
+  <div class="modal">
+    <h3 id="mDocTitle">👨‍⚕️ إضافة دكتور</h3>
+    <input type="hidden" id="mDocId">
+    <div class="fg"><label>الاسم *</label><input id="mDocName" placeholder="د. محمد أحمد"></div>
+    <div class="fg"><label>التخصص *</label><input id="mDocSpec" placeholder="باطنة وقلب" list="specDL"><datalist id="specDL"></datalist></div>
+    <div class="fg"><label>التليفون</label><input id="mDocPhone" placeholder="01xxxxxxxxx" type="tel"></div>
+    <div class="fg"><label>مواعيد الحضور</label><input id="mDocHours" placeholder="مثلاً: 5 - 9م"></div>
+    <div class="fg"><label>أيام الحضور</label><div class="daych" id="daysChk"></div></div>
+    <div class="fg"><label>ملاحظات</label><textarea id="mDocNote" rows="2" style="width:100%;padding:9px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none"></textarea></div>
+    <div class="mact">
+      <button class="btn bx" onclick="closeM('mDoc')">إلغاء</button>
+      <button class="btn bp" onclick="saveDoc()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal -->
+<div class="moverlay" id="mTest">
+  <div class="modal">
+    <h3 id="mTestTitle">🧪 إضافة تحليل</h3>
+    <input type="hidden" id="mTestId">
+    <div class="fg"><label>الكود</label><input id="mTestCode" placeholder="مثلاً: 26"></div>
+    <div class="fg"><label>اسم التحليل *</label><input id="mTestName" placeholder="مثلاً: CBC"></div>
+    <div class="fg"><label>السعر (جنيه) *</label><input id="mTestPrice" type="number" placeholder="0"></div>
+    <div class="fg"><label>التصنيف</label><input id="mTestCat" placeholder="مثلاً: ملف الدم" list="catDL"><datalist id="catDL"></datalist></div>
+    <div class="fg"><label>وصف / ملاحظة</label><input id="mTestDesc" placeholder="وصف إضافي"></div>
+    <div class="mact">
+      <button class="btn bx" onclick="closeM('mTest')">إلغاء</button>
+      <button class="btn bg" onclick="saveTest()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Service Modal -->
+<div class="moverlay" id="mServ">
+  <div class="modal">
+    <h3 id="mServTitle">🏥 إضافة خدمة</h3>
+    <input type="hidden" id="mServId">
+    <div class="fg"><label>رقم الخدمة</label><input id="mServNum" placeholder="رقم الخدمة"></div>
+    <div class="fg"><label>اسم الخدمة *</label><input id="mServName" placeholder="اسم الخدمة"></div>
+    <div class="fg"><label>القسم / العيادة *</label><input id="mServDept" placeholder="مثلاً: عيادة الأسنان" list="deptDL"><datalist id="deptDL"></datalist></div>
+    <div class="fg"><label>السعر (جنيه) *</label><input id="mServPrice" type="number" placeholder="0"></div>
+    <div class="mact">
+      <button class="btn bx" onclick="closeM('mServ')">إلغاء</button>
+      <button class="btn br" onclick="saveServ()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invoice Modal -->
+<div class="moverlay" id="mInv">
+  <div class="modal">
+    <h3>🧾 الفاتورة</h3>
+    <div id="invContent"></div>
+    <div class="mact">
+      <button class="btn bx" onclick="closeM('mInv')">إغلاق</button>
+      <button class="btn bp" onclick="window.print()">🖨️ طباعة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// CONSTANTS
+// =============================================
+const DAYS  = ['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+const DKEYS = ['sat','sun','mon','tue','wed','thu','fri'];
+const DCLS  = ['d0','d1','d2','d3','d4','d5','d6'];
+
+// =============================================
+// STORAGE
+// =============================================
+function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function sv(k,v){localStorage.setItem(k,JSON.stringify(v))}
+
+// =============================================
+// STATE
+// =============================================
+let doctors  = ld('dr_docs', getDefaultDoctors());
+let tests    = ld('dr_tests', getDefaultTests());
+let services = ld('dr_servs', getDefaultServices());
+let labCart  = {};
+let servCart = {};
+let session  = ld('dr_session', {invoices:[], total:0});
+let missingTests = ld('dr_missing', []);
+let specFilter = 'all';
+let deptFilter = 'all';
+let dayFilter  = '';
+let nextDocId  = ld('dr_ndi', 200);
+let nextTestId = ld('dr_nti', 500);
+let nextServId = ld('dr_nsi', 800);
+
+// =============================================
+// HELPERS
+// =============================================
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2500);
+}
+function closeM(id){document.getElementById(id).classList.remove('on')}
+function openM(id){document.getElementById(id).classList.add('on')}
+
+function todayKey(){
+  const d=new Date().getDay(); // 0=Sun
+  const map=[1,2,3,4,5,6,0];
+  return DKEYS[map[d]];
+}
+function todayName(){
+  const d=new Date().getDay();
+  return ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][d];
+}
+
+// =============================================
+// TAB
+// =============================================
+function go(tab){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sec-'+tab).classList.add('on');
+  const order=['home','docs','sched','lab','serv','cash','prices','print'];
+  document.querySelectorAll('.tab')[order.indexOf(tab)]?.classList.add('on');
+  const strip=document.getElementById('strip');
+  strip.style.display=(tab==='lab'||tab==='serv')?'flex':'none';
+  if(tab==='home')   renderHome();
+  if(tab==='docs')   renderDocs();
+  if(tab==='sched')  renderSched();
+  if(tab==='lab')    renderLab();
+  if(tab==='serv')   renderServ();
+  if(tab==='cash')   renderCash();
+  if(tab==='prices') renderPrices();
+  if(tab==='print')  renderPrintSection();
+  updateStrip();
+}
+
+// =============================================
+// HOME
+// =============================================
+function renderHome(){
+  const tk=todayKey();
+  const tod=doctors.filter(d=>d.days.includes(tk));
+  // Stats
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="scard" style="border-color:var(--primary)"><div class="snum" style="color:var(--primary)">${doctors.length}</div><div class="slbl">👨‍⚕️ الدكاتره</div></div>
+    <div class="scard" style="border-color:var(--red)"><div class="snum" style="color:var(--red)">${tod.length}</div><div class="slbl">📅 دكاتره اليوم</div></div>
+    <div class="scard" style="border-color:var(--green)"><div class="snum" style="color:var(--green)">${tests.length}</div><div class="slbl">🧪 تحاليل</div></div>
+    <div class="scard" style="border-color:var(--gold)"><div class="snum" style="color:var(--gold)">${services.length}</div><div class="slbl">🏥 خدمات</div></div>`;
+
+  // Today doctors
+  let h=`<div style="background:#eff6ff;border-radius:9px;padding:9px 13px;margin-bottom:10px;font-size:13px;font-weight:700;color:#1e40af">📅 ${todayName()} - ${new Date().toLocaleDateString('ar-EG')}</div>`;
+  if(!tod.length){
+    h+='<div class="empty"><div class="ei">😴</div><p>مفيش دكاتره اليوم</p></div>';
+  } else {
+    tod.forEach(d=>{
+      h+=`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="width:34px;height:34px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0">👨‍⚕️</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:900">${d.name}</div>
+          <div style="font-size:11px;color:var(--red);font-weight:700">${d.spec}</div>
+          ${d.hours?`<div style="font-size:11px;color:var(--gray)">⏰ ${d.hours}</div>`:''}
+        </div>
+        ${d.phone?`<a href="tel:${d.phone}" style="background:#eff6ff;color:var(--primary2);padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none">📞</a>`:''}
+      </div>`;
+    });
+  }
+  document.getElementById('todayDocs').innerHTML=h;
+
+  // Shift report
+  renderShiftPanel();
+  // Missing tests
+  renderMissBox();
+  // Bell badge
+  updateBell();
+}
+
+// =============================================
+// SHIFT REPORT
+// =============================================
+function renderShiftPanel(){
+  const rep=document.getElementById('shiftRep');
+  if(!session.invoices.length){rep.style.display='none';return;}
+  rep.style.display='block';
+  const labInv=session.invoices.filter(i=>i.type==='lab');
+  const servInv=session.invoices.filter(i=>i.type==='serv');
+  const labTot=labInv.reduce((s,i)=>s+i.total,0);
+  const servTot=servInv.reduce((s,i)=>s+i.total,0);
+  const avg=session.invoices.length?Math.round(session.total/session.invoices.length):0;
+  document.getElementById('shiftTime').textContent=`آخر تحديث: ${new Date().toLocaleTimeString('ar-EG')}`;
+  document.getElementById('shiftRows').innerHTML=`
+    <div class="srow"><span>📋 إجمالي الفواتير</span><span class="sval">${session.invoices.length}</span></div>
+    <div class="srow"><span>🧪 تحاليل</span><span class="sval">${labTot.toLocaleString()} ج (${labInv.length} فاتورة)</span></div>
+    <div class="srow"><span>🏥 خدمات</span><span class="sval">${servTot.toLocaleString()} ج (${servInv.length} فاتورة)</span></div>
+    <div class="srow"><span>💰 الإجمالي الكلي</span><span class="sval" style="font-size:16px">${session.total.toLocaleString()} ج</span></div>
+    <div class="srow"><span>📊 متوسط الفاتورة</span><span class="sval">${avg.toLocaleString()} ج</span></div>`;
+}
+
+function clearShift(){
+  if(!confirm('مسح بيانات الجلسة الحالية؟'))return;
+  session={invoices:[],total:0};
+  sv('dr_session',session);
+  toast('✅ تم بدء جلسة جديدة');
+  renderShiftPanel();
+}
+
+function printShift(){
+  const w=window.open('','_blank');
+  const labInv=session.invoices.filter(i=>i.type==='lab');
+  const servInv=session.invoices.filter(i=>i.type==='serv');
+  const labTot=labInv.reduce((s,i)=>s+i.total,0);
+  const servTot=servInv.reduce((s,i)=>s+i.total,0);
+  w.document.write(`<html dir="rtl"><head><meta charset="UTF-8"><style>body{font-family:Arial;padding:20px}h2{text-align:center}table{width:100%;border-collapse:collapse}td,th{padding:8px;border:1px solid #ccc}th{background:#1a3a5c;color:#fff}</style></head>
+  <body><h2>🏥 مجمع الإصلاح الطبي - تقرير الشيفت</h2>
+  <p>التاريخ: ${new Date().toLocaleDateString('ar-EG')} - الوقت: ${new Date().toLocaleTimeString('ar-EG')}</p>
+  <table><tr><th>البيان</th><th>القيمة</th></tr>
+  <tr><td>إجمالي الفواتير</td><td>${session.invoices.length}</td></tr>
+  <tr><td>إجمالي التحاليل</td><td>${labTot.toLocaleString()} جنيه</td></tr>
+  <tr><td>إجمالي الخدمات</td><td>${servTot.toLocaleString()} جنيه</td></tr>
+  <tr><td>الإجمالي الكلي</td><td><strong>${session.total.toLocaleString()} جنيه</strong></td></tr>
+  </table></body></html>`);
+  w.print();
+}
+
+// =============================================
+// MISSING TESTS
+// =============================================
+function renderMissBox(){
+  const box=document.getElementById('missBox');
+  if(!missingTests.length){box.style.display='none';return;}
+  box.style.display='block';
+  document.getElementById('missList').innerHTML=missingTests.map((t,i)=>
+    `<div class="missitem"><span>${t}</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn bg sm" onclick="quickAddMiss('${t.replace(/'/g,"\\'")}',${i})">➕ أضف</button>
+      <button class="btn br sm" onclick="removeMiss(${i})">✕</button>
+    </div></div>`
+  ).join('');
+}
+
+function clearMiss(){missingTests=[];sv('dr_missing',missingTests);renderMissBox();updateBell();}
+function removeMiss(i){missingTests.splice(i,1);sv('dr_missing',missingTests);renderMissBox();updateBell();}
+function quickAddMiss(name,i){
+  openAddTest();
+  document.getElementById('mTestName').value=name;
+  removeMiss(i);
+}
+
+// =============================================
+// DOCTORS
+// =============================================
+function renderDocs(){
+  const srch=(document.querySelector('#sec-docs .sbox input')?.value||'').toLowerCase();
+  const specs=[...new Set(doctors.map(d=>d.spec))].sort();
+  // Datalist
+  document.getElementById('specDL').innerHTML=specs.map(s=>`<option value="${s}">`).join('');
+  // Chips
+  let ch=`<button class="chip ${specFilter==='all'?'on':''}" onclick="specFilter='all';renderDocs()">الكل (${doctors.length})</button>`;
+  specs.forEach(s=>{
+    const c=doctors.filter(d=>d.spec===s).length;
+    ch+=`<button class="chip ${specFilter===s?'on':''}" onclick="specFilter='${s}';renderDocs()">${s} (${c})</button>`;
+  });
+  document.getElementById('specChips').innerHTML=ch;
+
+  const filtered=doctors.filter(d=>{
+    const ms=!srch||d.name.toLowerCase().includes(srch)||d.spec.toLowerCase().includes(srch);
+    const mf=specFilter==='all'||d.spec===specFilter;
+    return ms&&mf;
+  });
+
+  if(!filtered.length){
+    document.getElementById('docsContainer').innerHTML='<div class="empty"><div class="ei">🔍</div><p>مفيش نتائج</p></div>';
+    return;
+  }
+
+  document.getElementById('docsContainer').innerHTML=filtered.map(d=>{
+    const daysH=d.days.map(dk=>{
+      const i=DKEYS.indexOf(dk);
+      return `<span class="dbadge ${DCLS[i]}">${DAYS[i]}</span>`;
+    }).join('');
+    return `<div class="dcard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="dname">${d.name}</div><div class="dspec">🏥 ${d.spec}</div></div>
+        <div style="display:flex;gap:5px">
+          ${d.phone?`<a href="tel:${d.phone}" class="btn bg sm">📞</a>`:''}
+          <button class="btn bp sm" onclick="openEditDoc(${d.id})">✏️</button>
+          <button class="btn br sm" onclick="delDoc(${d.id})">🗑️</button>
+        </div>
+      </div>
+      ${d.phone?`<div style="font-size:11px;color:var(--gray);margin:4px 0">📱 ${d.phone}</div>`:''}
+      ${d.hours?`<div style="font-size:11px;color:var(--gray);margin:4px 0">⏰ ${d.hours}</div>`:''}
+      <div class="ddays">${daysH}</div>
+      ${d.note?`<div style="font-size:11px;color:var(--gray);background:#f8fafc;padding:6px;border-radius:8px">${d.note}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function openAddDoc(){
+  document.getElementById('mDocTitle').textContent='👨‍⚕️ إضافة دكتور جديد';
+  document.getElementById('mDocId').value='';
+  ['mDocName','mDocSpec','mDocPhone','mDocHours','mDocNote'].forEach(id=>document.getElementById(id).value='');
+  buildDaysCh([]);
+  openM('mDoc');
+}
+
+function openEditDoc(id){
+  const d=doctors.find(x=>x.id===id); if(!d) return;
+  document.getElementById('mDocTitle').textContent='✏️ تعديل بيانات الدكتور';
+  document.getElementById('mDocId').value=id;
+  document.getElementById('mDocName').value=d.name;
+  document.getElementById('mDocSpec').value=d.spec;
+  document.getElementById('mDocPhone').value=d.phone||'';
+  document.getElementById('mDocHours').value=d.hours||'';
+  document.getElementById('mDocNote').value=d.note||'';
+  buildDaysCh(d.days);
+  openM('mDoc');
+}
+
+function buildDaysCh(sel){
+  document.getElementById('daysChk').innerHTML=DAYS.map((day,i)=>{
+    const k=DKEYS[i]; const on=sel.includes(k);
+    return `<label class="daylbl ${on?'on':''}" onclick="this.classList.toggle('on')">
+      <input type="checkbox" data-k="${k}" ${on?'checked':''}> ${day}</label>`;
+  }).join('');
+}
+
+function saveDoc(){
+  const name=document.getElementById('mDocName').value.trim();
+  const spec=document.getElementById('mDocSpec').value.trim();
+  if(!name||!spec){toast('⚠️ الاسم والتخصص مطلوبين');return;}
+  const days=[...document.querySelectorAll('#daysChk .daylbl.on input')].map(cb=>cb.dataset.k);
+  const data={name,spec,phone:document.getElementById('mDocPhone').value.trim(),hours:document.getElementById('mDocHours').value.trim(),note:document.getElementById('mDocNote').value.trim(),days};
+  const eid=parseInt(document.getElementById('mDocId').value);
+  if(eid){
+    const i=doctors.findIndex(d=>d.id===eid);
+    doctors[i]={...doctors[i],...data};
+    toast('✅ تم التعديل');
+  } else {
+    data.id=nextDocId++; sv('dr_ndi',nextDocId);
+    doctors.push(data);
+    toast('✅ تم إضافة الدكتور');
+  }
+  sv('dr_docs',doctors); closeM('mDoc'); renderDocs(); renderHome();
+}
+
+function delDoc(id){
+  if(!confirm('حذف الدكتور ده؟'))return;
+  doctors=doctors.filter(d=>d.id!==id);
+  sv('dr_docs',doctors); toast('🗑️ تم الحذف'); renderDocs(); renderHome();
+}
+
+// =============================================
+// SCHEDULE
+// =============================================
+function renderSched(){
+  // Show doctors available NOW
+  const nowEl=document.getElementById('nowDoctors');
+  if(nowEl){
+    const tk=todayKey();
+    const hr=new Date().getHours();
+    const todayAll=doctors.filter(d=>d.days.includes(tk)&&d.hours);
+    const nowDocs=todayAll.filter(d=>{
+      const m=d.hours.match(/(\d+)(?::(\d+))?/);
+      if(!m) return false;
+      const start=parseInt(m[1])+(d.hours.includes('ص')&&parseInt(m[1])<12?0:d.hours.includes('ص')?0:12);
+      return hr>=start && hr<start+4;
+    });
+    if(nowDocs.length){
+      nowEl.innerHTML=`<div style="background:#d1fae5;border-radius:10px;padding:10px 14px">
+        <div style="font-size:12px;font-weight:900;color:#065f46;margin-bottom:6px">🟢 متاحون الآن (${new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})})</div>
+        ${nowDocs.map(d=>`<div style="font-size:12px;padding:3px 0;color:#065f46">👨‍⚕️ ${d.name} - ${d.spec} (${d.hours})</div>`).join('')}
+      </div>`;
+    } else {
+      nowEl.innerHTML='';
+    }
+  }
+  if(!dayFilter) dayFilter=todayKey();
+  // Day chips
+  document.getElementById('dayChips').innerHTML=DKEYS.map((k,i)=>{
+    const cnt=doctors.filter(d=>d.days.includes(k)).length;
+    const isTod=k===todayKey();
+    return `<button class="chip ${dayFilter===k?'on':''}" onclick="dayFilter='${k}';renderSched()">
+      ${isTod?'⭐ ':''}${DAYS[i]} <span style="opacity:.7;font-size:10px">(${cnt})</span></button>`;
+  }).join('');
+
+  const filtered=doctors.filter(d=>d.days.includes(dayFilter));
+  if(!filtered.length){
+    document.getElementById('schedContainer').innerHTML='<div class="empty"><div class="ei">📅</div><p>مفيش دكاتره اليوم ده</p></div>';
+    return;
+  }
+  const specs=[...new Set(filtered.map(d=>d.spec))].sort();
+  document.getElementById('schedContainer').innerHTML=specs.map(sp=>{
+    const sd=filtered.filter(d=>d.spec===sp);
+    return `<div style="margin-bottom:12px">
+      <div class="cath"><span>🏥 ${sp} (${sd.length})</span></div>
+      <div class="catb" style="border-radius:0 0 10px 10px">
+        ${sd.map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border)">
+          <div><div style="font-size:13px;font-weight:900">${d.name}</div>
+          ${d.hours?`<div style="font-size:11px;color:var(--gray)">⏰ ${d.hours}</div>`:''}</div>
+          ${d.phone?`<a href="tel:${d.phone}" style="color:var(--primary2);font-size:20px;text-decoration:none">📞</a>`:''}
+        </div>`).join('')}
+      </div></div>`;
+  }).join('');
+}
+
+// =============================================
+// LAB
+// =============================================
+function renderLab(){
+  const srch=(document.getElementById('labSrch')?.value||'').toLowerCase();
+  const cats=[...new Set(tests.map(t=>t.cat))].sort();
+  document.getElementById('catDL').innerHTML=cats.map(c=>`<option value="${c}">`).join('');
+
+  const filtered=tests.filter(t=>
+    !srch||t.name.toLowerCase().includes(srch)||(t.code+'').includes(srch)||t.cat.toLowerCase().includes(srch)||(t.desc||'').toLowerCase().includes(srch)
+  );
+
+  if(!filtered.length){
+    document.getElementById('labContainer').innerHTML='<div class="empty"><div class="ei">🔍</div><p>مفيش نتائج</p></div>';
+    return;
+  }
+
+  if(srch){
+    document.getElementById('labContainer').innerHTML=`<div class="catb" style="border:2px solid var(--primary);border-radius:10px">${filtered.map(t=>testRowH(t)).join('')}</div>`;
+  } else {
+    document.getElementById('labContainer').innerHTML=cats.map(cat=>{
+      const ct=filtered.filter(t=>t.cat===cat);
+      if(!ct.length) return '';
+      return `<div style="margin-bottom:12px">
+        <div class="cath" onclick="togCat(this)"><span>🧪 ${cat} <span style="opacity:.7;font-size:10px">(${ct.length})</span></span><span>▼</span></div>
+        <div class="catb">${ct.map(t=>testRowH(t)).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+  updateLabCartUI();
+}
+
+function testRowH(t){
+  const inc=labCart[t.id]!==undefined;
+  return `<div class="trow" id="tr-${t.id}">
+    <input type="checkbox" ${inc?'checked':''} onchange="togTest(${t.id},this.checked)">
+    <span class="tcode">${t.code||'-'}</span>
+    <div style="flex:1"><div class="tname">${t.name}</div>${t.desc?`<div class="tdesc">${t.desc}</div>`:''}</div>
+    <span class="tprice">${t.price} ج</span>
+    <button class="btn bp sm" onclick="openEditTest(${t.id})">✏️</button>
+    <button class="btn br sm" onclick="delTest(${t.id})">🗑️</button>
+  </div>`;
+}
+
+function togCat(el){
+  const b=el.nextElementSibling;
+  const hidden=b.style.display==='none';
+  b.style.display=hidden?'block':'none';
+  el.querySelector('span:last-child').textContent=hidden?'▼':'▶';
+}
+
+function togTest(id,checked){
+  if(checked){const t=tests.find(x=>x.id===id);if(t)labCart[id]=t;}
+  else delete labCart[id];
+  updateLabCartUI(); updateStrip();
+}
+
+function updateLabCartUI(){
+  const items=Object.values(labCart);
+  const total=items.reduce((s,t)=>s+t.price,0);
+  const box=document.getElementById('labCartBox');
+  if(!items.length){box.style.display='none';return;}
+  box.style.display='block';
+  document.getElementById('labCartItems').innerHTML=items.map(t=>
+    `<div class="citem"><span>${t.name}</span>
+    <span style="display:flex;align-items:center;gap:6px">${t.price} ج
+    <button class="rmv" onclick="togTest(${t.id},false);const cb=document.querySelector('#tr-${t.id} input');if(cb)cb.checked=false">✕</button></span></div>`
+  ).join('');
+  document.getElementById('labCartTotal').textContent=`💰 المجموع: ${total.toLocaleString()} جنيه`;
+}
+
+function clearLabCart(){
+  labCart={};
+  document.querySelectorAll('.trow input').forEach(cb=>cb.checked=false);
+  updateLabCartUI(); updateStrip();
+}
+
+// Test CRUD
+function openAddTest(){
+  document.getElementById('mTestTitle').textContent='🧪 إضافة تحليل جديد';
+  document.getElementById('mTestId').value='';
+  ['mTestCode','mTestName','mTestPrice','mTestCat','mTestDesc'].forEach(id=>document.getElementById(id).value='');
+  openM('mTest');
+}
+function openEditTest(id){
+  const t=tests.find(x=>x.id===id);if(!t)return;
+  document.getElementById('mTestTitle').textContent='✏️ تعديل التحليل';
+  document.getElementById('mTestId').value=id;
+  document.getElementById('mTestCode').value=t.code||'';
+  document.getElementById('mTestName').value=t.name;
+  document.getElementById('mTestPrice').value=t.price;
+  document.getElementById('mTestCat').value=t.cat;
+  document.getElementById('mTestDesc').value=t.desc||'';
+  openM('mTest');
+}
+function saveTest(){
+  const name=document.getElementById('mTestName').value.trim();
+  const price=parseFloat(document.getElementById('mTestPrice').value)||0;
+  if(!name){toast('⚠️ اسم التحليل مطلوب');return;}
+  const data={code:document.getElementById('mTestCode').value.trim(),name,price,cat:document.getElementById('mTestCat').value.trim()||'أخرى',desc:document.getElementById('mTestDesc').value.trim()};
+  const eid=parseInt(document.getElementById('mTestId').value);
+  if(eid){const i=tests.findIndex(t=>t.id===eid);tests[i]={...tests[i],...data};toast('✅ تم التعديل');}
+  else{data.id=nextTestId++;sv('dr_nti',nextTestId);tests.push(data);toast('✅ تم إضافة التحليل');}
+  sv('dr_tests',tests);closeM('mTest');renderLab();
+}
+function delTest(id){
+  if(!confirm('حذف التحليل ده؟'))return;
+  tests=tests.filter(t=>t.id!==id);delete labCart[id];
+  sv('dr_tests',tests);toast('🗑️ تم الحذف');renderLab();
+}
+
+// AI Scan
+const OR_KEY = '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';
+async function scanPres(input){
+  const file=input.files[0];if(!file)return;
+  document.getElementById('aiLoading').style.display='block';
+  document.getElementById('aiBox').style.display='none';
+  const reader=new FileReader();
+  reader.onload=async function(e){
+    const b64=e.target.result.split(',')[1];
+    const mimeType=file.type||'image/jpeg';
+    try{
+      const names=tests.map(t=>t.name);
+      const prompt=`اقرأ الروشتة دي واستخرج التحاليل المطلوبة.
+قائمتنا: ${names.join(', ')}
+رد بـJSON فقط بدون أي نص إضافي أو backticks:
+{"found":["اسم التحليل بالضبط من قائمتنا"],"not_found":["تحاليل مش موجودة في قائمتنا"]}`;
+
+      const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':`Bearer ${OR_KEY}`,
+          'HTTP-Referer':'https://a7medamin7890-jpg.github.io',
+          'X-Title':'Islah Medical Complex'
+        },
+        body:JSON.stringify({
+          model:'meta-llama/llama-3.2-11b-vision-instruct:free',
+          messages:[{
+            role:'user',
+            content:[
+              {type:'image_url',image_url:{url:`data:${mimeType};base64,${b64}`}},
+              {type:'text',text:prompt}
+            ]
+          }],
+          max_tokens:1000
+        })
+      });
+
+      const data=await resp.json();
+      if(data.error){throw new Error(data.error.message||JSON.stringify(data.error));}
+      const txt=data.choices?.[0]?.message?.content||'{}';
+      const clean=txt.replace(/```json|```/g,'').trim();
+      const res=JSON.parse(clean);
+
+      let matched=[];
+      (res.found||[]).forEach(n=>{
+        const t=tests.find(x=>x.name.toLowerCase()===n.toLowerCase());
+        if(t){matched.push(t);labCart[t.id]=t;}
+      });
+      if(res.not_found?.length){
+        res.not_found.forEach(n=>{if(n&&!missingTests.includes(n))missingTests.push(n);});
+        sv('dr_missing',missingTests);
+      }
+      document.getElementById('aiLoading').style.display='none';
+      const ab=document.getElementById('aiBox');
+      ab.style.display='block';
+      ab.innerHTML=`<h4>🤖 نتيجة تحليل الروشتة</h4>
+        ${matched.length
+          ?`<div style="margin-bottom:8px">✅ تم إضافة ${matched.length} تحليل:</div>
+          ${matched.map(t=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.2)">${t.name} - ${t.price} ج</div>`).join('')}`
+          :'<div>⚠️ مش عارف أقرأ التحاليل، صوّر أوضح</div>'}
+        ${res.not_found?.length?`<div style="margin-top:8px;font-size:11px;opacity:.8">غير موجود: ${res.not_found.join(', ')}</div>`:''}`;
+      updateLabCartUI(); updateStrip(); renderLab(); updateBell();
+    }catch(err){
+      document.getElementById('aiLoading').style.display='none';
+      document.getElementById('aiBox').style.display='block';
+      document.getElementById('aiBox').innerHTML=`<h4>❌ خطأ</h4><p style="font-size:12px">${err.message}</p>`;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// =============================================
+// SERVICES
+// =============================================
+function renderServ(){
+  const srch=(document.getElementById('servSrch')?.value||'').toLowerCase();
+  const depts=[...new Set(services.map(s=>s.dept))].sort();
+  document.getElementById('deptDL').innerHTML=depts.map(d=>`<option value="${d}">`).join('');
+  // Chips
+  let ch=`<button class="chip ${deptFilter==='all'?'on':''}" onclick="deptFilter='all';renderServ()">الكل</button>`;
+  depts.forEach(d=>{ch+=`<button class="chip ${deptFilter===d?'on':''}" onclick="deptFilter='${d.replace(/'/g,"\\'")}';renderServ()">${d}</button>`;});
+  document.getElementById('deptChips').innerHTML=ch;
+
+  const filtered=services.filter(s=>{
+    const ms=!srch||s.name.toLowerCase().includes(srch)||s.dept.toLowerCase().includes(srch)||(s.num+'').includes(srch);
+    const mf=deptFilter==='all'||s.dept===deptFilter;
+    return ms&&mf;
+  });
+
+  if(!filtered.length){document.getElementById('servContainer').innerHTML='<div class="empty"><div class="ei">🔍</div><p>مفيش نتائج</p></div>';return;}
+
+  const gdepts=[...new Set(filtered.map(s=>s.dept))];
+  document.getElementById('servContainer').innerHTML=gdepts.map(dept=>{
+    const ds=filtered.filter(s=>s.dept===dept);
+    return `<div style="margin-bottom:12px">
+      <div class="cath" onclick="togCat(this)"><span>🏥 ${dept} (${ds.length})</span><span>▼</span></div>
+      <div class="catb">${ds.map(s=>servRowH(s)).join('')}</div>
+    </div>`;
+  }).join('');
+  updateServCartUI();
+}
+
+function servRowH(s){
+  const inc=servCart[s.id]!==undefined;
+  return `<div class="trow" id="sr-${s.id}">
+    <input type="checkbox" ${inc?'checked':''} onchange="togServ(${s.id},this.checked)">
+    <span class="tcode" style="color:var(--gray)">${s.num||'-'}</span>
+    <span class="tname">${s.name}</span>
+    <span class="tprice" style="color:var(--red)">${s.price.toLocaleString()} ج</span>
+    <button class="btn bp sm" onclick="openEditServ(${s.id})">✏️</button>
+    <button class="btn br sm" onclick="delServ(${s.id})">🗑️</button>
+  </div>`;
+}
+
+function togServ(id,checked){
+  if(checked){const s=services.find(x=>x.id===id);if(s)servCart[id]=s;}
+  else delete servCart[id];
+  updateServCartUI(); updateStrip();
+}
+
+function updateServCartUI(){
+  const items=Object.values(servCart);
+  const total=items.reduce((s,t)=>s+t.price,0);
+  const box=document.getElementById('servCartBox');
+  if(!items.length){box.style.display='none';return;}
+  box.style.display='block';
+  document.getElementById('servCartItems').innerHTML=items.map(s=>
+    `<div class="citem"><span>${s.name}</span>
+    <span style="display:flex;align-items:center;gap:6px">${s.price.toLocaleString()} ج
+    <button class="rmv" onclick="togServ(${s.id},false);const cb=document.querySelector('#sr-${s.id} input');if(cb)cb.checked=false">✕</button></span></div>`
+  ).join('');
+  document.getElementById('servCartTotal').textContent=`💰 المجموع: ${total.toLocaleString()} جنيه`;
+}
+
+function clearServCart(){
+  servCart={};
+  document.querySelectorAll('#servContainer input').forEach(cb=>cb.checked=false);
+  updateServCartUI(); updateStrip();
+}
+
+// Service CRUD
+function openAddServ(){
+  document.getElementById('mServTitle').textContent='🏥 إضافة خدمة جديدة';
+  document.getElementById('mServId').value='';
+  ['mServNum','mServName','mServDept','mServPrice'].forEach(id=>document.getElementById(id).value='');
+  openM('mServ');
+}
+function openEditServ(id){
+  const s=services.find(x=>x.id===id);if(!s)return;
+  document.getElementById('mServTitle').textContent='✏️ تعديل الخدمة';
+  document.getElementById('mServId').value=id;
+  document.getElementById('mServNum').value=s.num||'';
+  document.getElementById('mServName').value=s.name;
+  document.getElementById('mServDept').value=s.dept;
+  document.getElementById('mServPrice').value=s.price;
+  openM('mServ');
+}
+function saveServ(){
+  const name=document.getElementById('mServName').value.trim();
+  const dept=document.getElementById('mServDept').value.trim();
+  const price=parseFloat(document.getElementById('mServPrice').value)||0;
+  if(!name||!dept){toast('⚠️ الاسم والقسم مطلوبين');return;}
+  const data={num:document.getElementById('mServNum').value.trim(),name,dept,price};
+  const eid=parseInt(document.getElementById('mServId').value);
+  if(eid){const i=services.findIndex(s=>s.id===eid);services[i]={...services[i],...data};toast('✅ تم التعديل');}
+  else{data.id=nextServId++;sv('dr_nsi',nextServId);services.push(data);toast('✅ تم إضافة الخدمة');}
+  sv('dr_servs',services);closeM('mServ');renderServ();
+}
+function delServ(id){
+  if(!confirm('حذف الخدمة دي؟'))return;
+  services=services.filter(s=>s.id!==id);delete servCart[id];
+  sv('dr_servs',services);toast('🗑️ تم الحذف');renderServ();
+}
+
+// =============================================
+// STRIP
+// =============================================
+function updateStrip(){
+  const lt=Object.values(labCart).reduce((s,t)=>s+t.price,0);
+  const st=Object.values(servCart).reduce((s,t)=>s+t.price,0);
+  const total=lt+st;
+  const cnt=Object.keys(labCart).length+Object.keys(servCart).length;
+  document.getElementById('stripAmt').textContent=total.toLocaleString()+' جنيه';
+  document.getElementById('stripCnt').textContent=cnt+' عنصر';
+}
+
+// =============================================
+// INVOICE
+// =============================================
+function makeInv(type){
+  const items=type==='lab'?Object.values(labCart):Object.values(servCart);
+  const total=items.reduce((s,t)=>s+t.price,0);
+  const now=new Date();
+  const rows=items.map(t=>`<div class="invrow"><span>${type==='lab'?(t.code?t.code+' - ':'')+t.name:t.name}</span><span style="font-weight:700">${t.price.toLocaleString()} ج</span></div>`).join('');
+  document.getElementById('invContent').innerHTML=`
+    <div class="invbox">
+      <div class="invhdr"><h2>🏥 مجمع الإصلاح الطبي</h2>
+      <p>${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}</p>
+      <p>${type==='lab'?'🧪 فاتورة تحاليل':'🏥 فاتورة خدمات'}</p></div>
+      ${rows}
+      <div class="invtotal"><span>💰 الإجمالي</span><span>${total.toLocaleString()} جنيه</span></div>
+    </div>`;
+  session.invoices.push({type,items:[...items],total,time:now.toLocaleTimeString('ar-EG')});
+  session.total+=total;
+  sv('dr_session',session);
+  openM('mInv');
+}
+
+// =============================================
+// CASHIER
+// =============================================
+function renderCash(){
+  if(!session.invoices.length){
+    document.getElementById('cashContent').innerHTML='<div class="empty"><div class="ei">💰</div><p>مفيش فواتير في الجلسة دي</p></div>';
+    return;
+  }
+  const labInv=session.invoices.filter(i=>i.type==='lab');
+  const servInv=session.invoices.filter(i=>i.type==='serv');
+  const avg=Math.round(session.total/session.invoices.length);
+  let h=`<div style="background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:var(--r);padding:16px;margin-bottom:14px">
+    <div style="font-size:11px;opacity:.8">إجمالي الجلسة</div>
+    <div style="font-size:30px;font-weight:900">${session.total.toLocaleString()} ج</div>
+    <div style="font-size:11px;opacity:.7">${session.invoices.length} فاتورة | متوسط ${avg.toLocaleString()} ج</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div class="scard" style="border-color:var(--green)"><div class="snum" style="color:var(--green);font-size:20px">${labInv.reduce((s,i)=>s+i.total,0).toLocaleString()}</div><div class="slbl">🧪 تحاليل</div></div>
+    <div class="scard" style="border-color:var(--red)"><div class="snum" style="color:var(--red);font-size:20px">${servInv.reduce((s,i)=>s+i.total,0).toLocaleString()}</div><div class="slbl">🏥 خدمات</div></div>
+  </div>`;
+  session.invoices.forEach((inv,idx)=>{
+    h+=`<div style="border:2px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:700">${inv.type==='lab'?'🧪':'🏥'} فاتورة #${idx+1}</span>
+        <span style="font-size:11px;color:var(--gray)">${inv.time}</span>
+      </div>
+      ${inv.items.map(t=>`<div style="font-size:11px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted var(--border)"><span>${t.name}</span><span>${t.price.toLocaleString()} ج</span></div>`).join('')}
+      <div style="font-size:14px;font-weight:900;color:var(--primary);text-align:left;margin-top:6px">${inv.total.toLocaleString()} ج</div>
+    </div>`;
+  });
+  h+=`<div style="display:flex;gap:8px;margin-top:4px">
+    <button class="btn br" style="flex:1" onclick="clearShift();renderCash()">🔄 جلسة جديدة</button>
+    <button class="btn bg sm" onclick="printShift()">🖨️ طباعة</button>
+  </div>`;
+  document.getElementById('cashContent').innerHTML=h;
+}
+
+// =============================================
+// NOTIFICATIONS
+// =============================================
+function updateBell(){
+  let cnt=0;
+  const tk=todayKey();
+  // Upcoming doctors in next 2 hours - just count today's docs
+  const todayDocs=doctors.filter(d=>d.days.includes(tk));
+  if(todayDocs.length) cnt++;
+  if(missingTests.length) cnt+=missingTests.length;
+  if(session.invoices.length) cnt++;
+  const badge=document.getElementById('bellBadge');
+  badge.style.display=cnt>0?'flex':'none';
+  badge.textContent=cnt;
+}
+
+function openNotif(){
+  renderNotifList();
+  document.getElementById('npanel').classList.add('on');
+}
+function closeNotif(){document.getElementById('npanel').classList.remove('on')}
+
+function renderNotifList(){
+  const tk=todayKey();
+  const todayDocs=doctors.filter(d=>d.days.includes(tk));
+  let h='';
+
+  // Today's doctors
+  if(todayDocs.length){
+    h+=`<div class="nsec">📅 دكاتره اليوم</div>`;
+    todayDocs.forEach(d=>{
+      h+=`<div class="nitem" onclick="closeNotif();go('sched')">
+        <div class="nico blue">👨‍⚕️</div>
+        <div><div class="ntitle">${d.name}</div>
+        <div class="ndesc">${d.spec}</div>
+        ${d.hours?`<div class="ntime">⏰ ${d.hours}</div>`:''}</div>
+      </div>`;
+    });
+  }
+
+  // Shift summary
+  if(session.invoices.length){
+    h+=`<div class="nsec">💰 تقرير الجلسة الحالية</div>
+    <div class="nitem" onclick="closeNotif();go('cash')">
+      <div class="nico green">💰</div>
+      <div><div class="ntitle">إجمالي الجلسة: ${session.total.toLocaleString()} جنيه</div>
+      <div class="ndesc">${session.invoices.length} فاتورة - متوسط ${Math.round(session.total/session.invoices.length).toLocaleString()} ج</div></div>
+    </div>`;
+  }
+
+  // Missing tests
+  if(missingTests.length){
+    h+=`<div class="nsec">⚠️ تحاليل ناقصة من قائمتنا (${missingTests.length})</div>`;
+    missingTests.forEach((t,i)=>{
+      h+=`<div class="nitem unread">
+        <div class="nico red">🧪</div>
+        <div style="flex:1"><div class="ntitle">${t}</div><div class="ndesc">مش موجود في قائمة التحاليل</div></div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <button class="btn bg sm" onclick="event.stopPropagation();quickAddMiss('${t.replace(/'/g,"\\'")}',${i});closeNotif()">➕</button>
+          <button class="btn br sm" onclick="event.stopPropagation();removeMiss(${i});renderNotifList();updateBell()">✕</button>
+        </div>
+        <div class="ndot"></div>
+      </div>`;
+    });
+  }
+
+  // Stats info
+  h+=`<div class="nsec">ℹ️ معلومات المجمع</div>
+  <div class="nitem">
+    <div class="nico gold">📊</div>
+    <div><div class="ntitle">إحصائيات النظام</div>
+    <div class="ndesc">${doctors.length} دكتور | ${tests.length} تحليل | ${services.length} خدمة</div></div>
+  </div>`;
+
+  if(!h) h='<div class="empty"><div class="ei">✅</div><p>مفيش إشعارات جديدة</p></div>';
+  document.getElementById('notifList').innerHTML=h;
+}
+
+// =============================================
+// DEFAULT DATA
+// =============================================
+function getDefaultDoctors(){
+  return [
+    // ===== أسنان =====
+    {id:1,name:'د. عمرو شعيب',spec:'أسنان',phone:'',hours:'3 - 5:30م',days:['sat','wed'],note:''},
+    {id:2,name:'د. وئام الطنطاوي',spec:'أسنان',phone:'',hours:'4 - 8م',days:['sat'],note:''},
+    {id:3,name:'د. أحمد عبد القادر',spec:'أسنان',phone:'',hours:'8 - 11:30م',days:['sat'],note:''},
+    {id:4,name:'د. نهى شاكر',spec:'أسنان',phone:'',hours:'9ص - 12:30م',days:['sun'],note:''},
+    {id:5,name:'د. محمود محمد',spec:'أسنان',phone:'',hours:'12:30 - 3:30م',days:['sun'],note:''},
+    {id:6,name:'د. أحمد العشماوي',spec:'أسنان',phone:'',hours:'4:30 - 8م',days:['sun'],note:''},
+    {id:7,name:'د. عمر محمود',spec:'أسنان',phone:'',hours:'12 - 3:30م',days:['mon'],note:''},
+    {id:8,name:'د. يوسف حمزة',spec:'أسنان',phone:'',hours:'12 - 3:30م',days:['mon'],note:'إجازة الأحد'},
+    {id:9,name:'د. أحمد فريد',spec:'أسنان',phone:'',hours:'8 - 11:30م',days:['mon'],note:''},
+    {id:10,name:'د. أحمد ربيع',spec:'أسنان',phone:'',hours:'3 - 5م',days:['tue'],note:''},
+    {id:11,name:'د. محمد حامد',spec:'أسنان',phone:'',hours:'4 - 8م',days:['tue'],note:''},
+    {id:12,name:'د. رضوى الشربيني',spec:'أسنان',phone:'',hours:'4 - 8م',days:['wed'],note:''},
+    {id:13,name:'د. سلمى الشلقاني',spec:'أسنان',phone:'',hours:'8 - 11:30م',days:['wed'],note:'إجازة حتى 1 يوليو'},
+    {id:14,name:'د. عبد الله أشرف',spec:'أسنان',phone:'',hours:'3 - 5:30م',days:['thu'],note:''},
+    {id:15,name:'د. مصطفى عادل',spec:'أسنان',phone:'',hours:'5 - 11:30م',days:['thu'],note:''},
+    // ===== أطفال =====
+    {id:16,name:'د. ريهام عبد الرحمن',spec:'أطفال',phone:'',hours:'2 - 4م',days:['sat'],note:''},
+    {id:17,name:'د. وليد الشربيني',spec:'أطفال',phone:'',hours:'8 - 10م',days:['sat','mon','wed'],note:''},
+    {id:18,name:'د. مروة المهدي',spec:'أطفال',phone:'',hours:'2 - 4م',days:['sun','thu'],note:''},
+    {id:19,name:'د. رضا أحمد',spec:'أطفال',phone:'',hours:'5 - 7م',days:['sun'],note:''},
+    {id:20,name:'د. أحمد الدمرداش',spec:'أطفال',phone:'',hours:'8:30 - 10:30م',days:['sun','thu'],note:''},
+    {id:21,name:'د. نورة جمال',spec:'أطفال',phone:'',hours:'3 - 5م',days:['mon','fri'],note:''},
+    {id:22,name:'د. كريمة البدوي',spec:'أطفال',phone:'',hours:'5 - 7م',days:['mon','tue','wed','thu'],note:''},
+    {id:23,name:'د. إيمان قلادي',spec:'أطفال',phone:'',hours:'8 - 10م',days:['tue'],note:''},
+    {id:24,name:'د. أحمد غازي',spec:'أطفال',phone:'',hours:'5:30 - 7:30م',days:['wed'],note:''},
+    {id:25,name:'د. سامح مزروع',spec:'أطفال',phone:'',hours:'8 - 10م',days:['fri'],note:'إجازة حتى 5 يونيو'},
+    // ===== باطنة وجهاز هضمي =====
+    {id:26,name:'د. مروة سمك',spec:'باطنة وجهاز هضمي',phone:'',hours:'2:30 - 4:30م',days:['sat'],note:''},
+    {id:27,name:'د. مختار متولي',spec:'باطنة وجهاز هضمي',phone:'',hours:'8 - 10م',days:['sat','mon'],note:''},
+    {id:28,name:'د. آمال علاء الدين',spec:'باطنة وجهاز هضمي',phone:'',hours:'3 - 8م',days:['sun','mon'],note:''},
+    {id:29,name:'د. سعد البيومي',spec:'باطنة',phone:'',hours:'8 - 10م',days:['sun'],note:''},
+    {id:30,name:'د. جهاد هشام',spec:'باطنة وجهاز هضمي',phone:'',hours:'8 - 10م',days:['tue'],note:''},
+    {id:31,name:'د. مصطفى شكري',spec:'باطنة عامة والكلى',phone:'',hours:'5 - 7م',days:['tue','wed'],note:''},
+    {id:32,name:'د. إسلام الشربيني',spec:'باطنة وجهاز هضمي',phone:'',hours:'7 - 10م',days:['wed','fri'],note:''},
+    {id:33,name:'د. إيناس مطاوع',spec:'باطنة وجهاز هضمي',phone:'',hours:'2:30 - 4:30م',days:['thu','fri'],note:''},
+    // ===== نساء وتوليد =====
+    {id:34,name:'د. الشيماء كمال',spec:'نساء وتوليد',phone:'',hours:'7:30 - 9:30م',days:['sat'],note:''},
+    {id:35,name:'د. رشا إبراهيم',spec:'نساء وتوليد',phone:'',hours:'9 - 11م',days:['sun','thu'],note:''},
+    {id:36,name:'د. عفت عوض',spec:'نساء وتوليد',phone:'',hours:'5:30 - 7:30م',days:['mon','wed'],note:''},
+    {id:37,name:'د. جيهان عبد الحميد',spec:'نساء وتوليد',phone:'',hours:'3:30 - 5:30م',days:['tue'],note:''},
+    {id:38,name:'د. هند الشويكي',spec:'نساء وتوليد',phone:'',hours:'4 - 6م',days:['fri'],note:''},
+    // ===== جلدية وتجميل =====
+    {id:39,name:'د. آية الحربي',spec:'جلدية وتجميل',phone:'',hours:'2:30 - 4:30م',days:['sat'],note:''},
+    {id:40,name:'د. فاطمة فيصل',spec:'جلدية وتجميل',phone:'',hours:'8 - 10م',days:['sat','sun','thu'],note:''},
+    {id:41,name:'د. هند صابر',spec:'جلدية وتجميل',phone:'',hours:'3 - 5م',days:['sun'],note:''},
+    {id:42,name:'د. علي عزت',spec:'جلدية وتناسلية وذكورة',phone:'',hours:'5:30 - 7:30م',days:['sun'],note:''},
+    {id:43,name:'د. هبة شوقي',spec:'جلدية وتجميل',phone:'',hours:'4 - 6م',days:['mon'],note:''},
+    {id:44,name:'د. أحمد إبراهيم',spec:'جلدية وتناسلية',phone:'',hours:'7 - 8:30م',days:['mon'],note:''},
+    {id:45,name:'د. دعاء السقا',spec:'جلدية وتجميل',phone:'',hours:'7:30 - 9:30م',days:['mon','tue'],note:''},
+    {id:46,name:'د. هند إبراهيم',spec:'جلدية وتناسلية',phone:'',hours:'4 - 6م',days:['tue','thu'],note:''},
+    {id:47,name:'د. عمرو عبد الكريم',spec:'جلدية وتناسلية',phone:'',hours:'7 - 9م',days:['wed'],note:''},
+    // ===== غدد صماء وسكر =====
+    {id:48,name:'د. ديما سامي',spec:'غدد صماء وسكر',phone:'',hours:'1 - 3م',days:['sat'],note:''},
+    {id:49,name:'د. هدير نجيب',spec:'غدد صماء وسكر',phone:'',hours:'2 - 4م',days:['sun','wed'],note:''},
+    {id:50,name:'د. علي حجازي',spec:'غدد صماء وسكر',phone:'',hours:'4 - 6م',days:['tue'],note:''},
+    // ===== عظام =====
+    {id:51,name:'د. محمود الإمام',spec:'عظام',phone:'',hours:'3 - 5م',days:['sat'],note:''},
+    {id:52,name:'د. محمد الدعوة',spec:'عظام',phone:'',hours:'4:30 - 8:30م',days:['sat','wed'],note:''},
+    {id:53,name:'د. محمد القصبي',spec:'عظام',phone:'',hours:'8 - 10م',days:['sat'],note:''},
+    {id:54,name:'د. أحمد البراشي',spec:'عظام',phone:'',hours:'4 - 8:30م',days:['sun'],note:''},
+    {id:55,name:'د. محمد عوض',spec:'عظام',phone:'',hours:'8:30 - 10:30م',days:['sun','mon','tue'],note:''},
+    {id:56,name:'د. أشرف ضياء',spec:'عظام',phone:'',hours:'3 - 5م',days:['mon'],note:''},
+    {id:57,name:'د. السيد ماهر',spec:'عظام',phone:'',hours:'8:30 - 10:30م',days:['tue','wed'],note:''},
+    {id:58,name:'د. السيد عامر',spec:'عظام',phone:'',hours:'8 - 10م',days:['thu'],note:''},
+    {id:59,name:'د. طارق أحمد',spec:'عظام',phone:'',hours:'8 - 10م',days:['fri'],note:''},
+    // ===== روماتيزم ومناعة =====
+    {id:60,name:'د. لمياء محمود عبد الغفار',spec:'روماتيزم ومناعة',phone:'',hours:'6:30 - 8:30م',days:['tue'],note:''},
+    // ===== مخ وأعصاب =====
+    {id:61,name:'د. منار أبو الوفا',spec:'مخ وأعصاب',phone:'',hours:'3 - 5م',days:['sun'],note:''},
+    {id:62,name:'د. ياسمين إبراهيم',spec:'مخ وأعصاب',phone:'',hours:'6 - 8م',days:['mon'],note:''},
+    {id:63,name:'د. علي موافي',spec:'مخ وأعصاب',phone:'',hours:'4 - 6م',days:['wed'],note:''},
+    {id:64,name:'د. عبد العلي الشامي',spec:'مخ وأعصاب',phone:'',hours:'8 - 10م',days:['fri'],note:''},
+    // ===== صدر =====
+    {id:65,name:'د. نرمين إبراهيم',spec:'صدر',phone:'',hours:'8 - 10م',days:['sat'],note:''},
+    {id:66,name:'د. مها عبد المنعم',spec:'صدر',phone:'',hours:'3 - 5م',days:['sun'],note:''},
+    {id:67,name:'د. ماجد الحسين',spec:'صدر',phone:'',hours:'7:30 - 9:30م',days:['mon'],note:''},
+    // ===== جراحة عامة =====
+    {id:68,name:'د. محمد عبد المقصود',spec:'جراحة عامة',phone:'',hours:'4:30 - 10:30م',days:['sat','tue'],note:''},
+    {id:69,name:'د. سحر أبو العينين',spec:'جراحة عامة',phone:'',hours:'7 - 9م',days:['sat','thu'],note:''},
+    {id:70,name:'د. أحمد عزام',spec:'جراحة عامة',phone:'',hours:'5:30 - 7:30م',days:['sun','wed'],note:''},
+    {id:71,name:'د. أحمد عزت',spec:'جراحة عامة',phone:'',hours:'8 - 10م',days:['sun'],note:''},
+    {id:72,name:'د. ميرنا محمد',spec:'جراحة عامة',phone:'',hours:'5 - 6:30م',days:['mon'],note:''},
+    {id:73,name:'د. محمد حسام',spec:'جراحة أطفال',phone:'',hours:'6:30 - 8:30م',days:['mon'],note:''},
+    {id:74,name:'د. محمد عبد الفتاح',spec:'جراحة عامة',phone:'',hours:'8:30 - 10:30م',days:['mon'],note:''},
+    {id:75,name:'د. أحمد العمري',spec:'جراحة أوعية دموية',phone:'',hours:'2:30 - 4:30م',days:['tue'],note:''},
+    {id:76,name:'د. أيمن شميس',spec:'جراحة عامة',phone:'',hours:'5 - 10م',days:['tue','fri'],note:''},
+    {id:77,name:'د. خالد مرزوق',spec:'جراحة جهاز هضمي',phone:'',hours:'4 - 6م',days:['thu'],note:''},
+    {id:78,name:'د. محمد هشام',spec:'جراحة أوعية دموية',phone:'',hours:'5:30 - 7:30م',days:['fri'],note:''},
+    // ===== رمد وعيون =====
+    {id:79,name:'د. مريم عقل',spec:'رمد وعيون',phone:'',hours:'1:30 - 3:30م',days:['sat','sun'],note:''},
+    {id:80,name:'د. عمرو طايل',spec:'رمد وعيون',phone:'',hours:'5 - 7م',days:['sat','mon'],note:''},
+    {id:81,name:'د. دينا علاء أحمد',spec:'رمد وعيون',phone:'',hours:'7:30 - 9:30م',days:['sat','mon','wed','fri'],note:'إجازة حتى 8 يونيو الاثنين'},
+    {id:82,name:'د. عبد الرحمن عبد الملك',spec:'رمد وعيون',phone:'',hours:'7 - 9م',days:['sun'],note:''},
+    {id:83,name:'د. أحمد عامر',spec:'رمد وعيون',phone:'',hours:'6 - 7:30م',days:['tue'],note:''},
+    {id:84,name:'د. أسماء طلعت',spec:'رمد وعيون',phone:'',hours:'5 - 10م',days:['wed','fri'],note:'مؤقت الأربعاء'},
+    {id:85,name:'د. عبد المنعم تربة',spec:'رمد وعيون',phone:'',hours:'8 - 10م',days:['wed'],note:''},
+    {id:86,name:'د. هويدا كمال',spec:'رمد وعيون',phone:'',hours:'4:30 - 6:30م',days:['thu'],note:''},
+    {id:87,name:'د. علي شرف',spec:'رمد وعيون',phone:'',hours:'7 - 9م',days:['thu'],note:''},
+    // ===== أنف وأذن وحنجرة =====
+    {id:88,name:'د. أسامة رضوان',spec:'أنف وأذن وحنجرة',phone:'',hours:'1 - 6م',days:['sat','mon','wed','thu'],note:''},
+    {id:89,name:'د. أحمد العرمان',spec:'أنف وأذن وحنجرة',phone:'',hours:'5 - 7م',days:['sat','wed'],note:''},
+    {id:90,name:'د. أحمد ربيع ياقوت',spec:'أنف وأذن وحنجرة',phone:'',hours:'8:30 - 10:30م',days:['sat','wed'],note:''},
+    {id:91,name:'د. ياسمين علي',spec:'أنف وأذن وحنجرة',phone:'',hours:'3 - 5م',days:['sun'],note:''},
+    {id:92,name:'د. رضوى محمود العشري',spec:'أنف وأذن وحنجرة',phone:'',hours:'8 - 10م',days:['sun','mon'],note:''},
+    {id:93,name:'د. أنس مجدي صقر',spec:'أنف وأذن وحنجرة',phone:'',hours:'5 - 7م',days:['tue'],note:''},
+    {id:94,name:'د. إيهاب - أنف وأذن',spec:'أنف وأذن وحنجرة',phone:'',hours:'8 - 10م',days:['tue'],note:''},
+    {id:95,name:'د. نعيم الجمل',spec:'أنف وأذن وحنجرة',phone:'',hours:'4 - 6م',days:['fri'],note:''},
+    {id:96,name:'د. محمد قطري',spec:'أنف وأذن وحنجرة',phone:'',hours:'8 - 10م',days:['fri'],note:''},
+    // ===== قلب وسونار =====
+    {id:97,name:'د. محمود القصبي',spec:'قلب',phone:'',hours:'2 - 4م',days:['sat'],note:''},
+    {id:98,name:'د. دينا عبد الناصر',spec:'قلب سونار',phone:'',hours:'5 - 8م',days:['sat','fri'],note:''},
+    {id:99,name:'د. وسام فتحي',spec:'قلب',phone:'',hours:'2:30 - 4:30م',days:['sun','tue'],note:''},
+    {id:100,name:'د. أميرة الحسيني',spec:'قلب سونار',phone:'',hours:'5 - 8م',days:['sun'],note:''},
+    {id:101,name:'د. أمين سليمان',spec:'قلب',phone:'',hours:'8:30 - 10:30م',days:['sun','fri'],note:'4 - 6م الجمعة'},
+    {id:102,name:'د. إيهاب محمد',spec:'قلب سونار',phone:'',hours:'6 - 8م',days:['mon'],note:'إجازة حتى 8 يونيو'},
+    {id:103,name:'د. فريال الحنفي',spec:'قلب',phone:'',hours:'8:30 - 10:30م',days:['mon'],note:''},
+    {id:104,name:'د. مروة محمد',spec:'قلب سونار',phone:'',hours:'5 - 8م',days:['tue','thu'],note:''},
+    {id:105,name:'د. يوسف العدوي',spec:'قلب',phone:'',hours:'3 - 6م',days:['wed'],note:''},
+    {id:106,name:'د. سالي حجاج',spec:'قلب سونار',phone:'',hours:'5 - 8م',days:['wed'],note:''},
+    {id:107,name:'د. أحمد مصطفى',spec:'قلب',phone:'',hours:'8:30 - 10:30م',days:['wed'],note:''},
+    {id:108,name:'د. عزة المتولي',spec:'قلب',phone:'',hours:'2 - 4م',days:['thu'],note:''},
+    {id:109,name:'د. مصطفى يوسف',spec:'قلب',phone:'',hours:'8 - 10م',days:['fri'],note:''},
+    // ===== مسالك بولية =====
+    {id:110,name:'د. محمد باهي',spec:'مسالك بولية',phone:'',hours:'5:30 - 9م',days:['sat','wed'],note:''},
+    {id:111,name:'د. مروان أنس',spec:'مسالك أطفال وكبار',phone:'',hours:'5 - 8م',days:['sun','tue'],note:''},
+    // ===== تغذية علاجية =====
+    {id:112,name:'د. رحاب حمدي عاشور',spec:'تغذية علاجية',phone:'',hours:'2:30 - 4:30م',days:['mon'],note:''},
+    {id:113,name:'د. شذى مسعود',spec:'تغذية علاجية',phone:'',hours:'8 - 10م',days:['tue'],note:''},
+    {id:114,name:'د. نرمين الحسيني',spec:'تغذية علاجية',phone:'',hours:'7 - 9م',days:['thu'],note:''},
+    // ===== تخاطب وتنمية مهارات =====
+    {id:115,name:'د. أماني محمد',spec:'أمراض تخاطب',phone:'',hours:'5:30 - 7:30م',days:['sun'],note:''},
+    {id:116,name:'د. أمنية محمد',spec:'تخاطب ومهارات',phone:'',hours:'8 - 10م',days:['sun'],note:''},
+    {id:117,name:'د. اللواء السيد',spec:'أمراض تخاطب',phone:'',hours:'5 - 7م',days:['fri'],note:''},
+    // ===== طب أسرة =====
+    {id:118,name:'د. أحمد الدداموني',spec:'طب أسرة - باطنة وأطفال',phone:'',hours:'6 - 11م',days:['sat','sun','mon','tue','wed','thu','fri'],note:''},
+  ];
+}
+function getDefaultTests(){
+  return [
+    {id:1,code:'26',name:'CBC',price:75,cat:'ملف الدم',desc:'صورة دم كاملة'},
+    {id:2,code:'117',name:'ABO/RH',price:50,cat:'ملف الدم',desc:'فصيلة'},
+    {id:3,code:'506',name:'BLOOD FILM',price:75,cat:'ملف الدم',desc:''},
+    {id:4,code:'409',name:'INR',price:55,cat:'ملف الدم',desc:'سيولة'},
+    {id:5,code:'371',name:'PTT - APT',price:65,cat:'ملف الدم',desc:''},
+    {id:6,code:'195',name:'Ddimer',price:180,cat:'ملف الدم',desc:'خاص بالقلب'},
+    {id:7,code:'425',name:'RC',price:75,cat:'ملف الدم',desc:''},
+    {id:8,code:'112',name:'Bleeding time BT',price:25,cat:'ملف الدم',desc:'زمن النزف والتجلط'},
+    {id:9,code:'164',name:'Clotting time CT',price:15,cat:'ملف الدم',desc:''},
+    {id:10,code:'436',name:'SGPT (ALT)',price:45,cat:'ملف الكبد',desc:''},
+    {id:11,code:'435',name:'SGOT (AST)',price:45,cat:'ملف الكبد',desc:''},
+    {id:12,code:'111',name:'Bilirubin Total',price:45,cat:'ملف الكبد',desc:'الصفرا'},
+    {id:13,code:'108',name:'Bilirubin D',price:45,cat:'ملف الكبد',desc:''},
+    {id:14,code:'29',name:'Alk.phosphatase',price:55,cat:'ملف الكبد',desc:''},
+    {id:15,code:'22',name:'Albumin Serum',price:45,cat:'ملف الكبد',desc:''},
+    {id:16,code:'23',name:'Albumin/CR ratio',price:120,cat:'ملف الكبد',desc:''},
+    {id:17,code:'181',name:'Creatinine',price:45,cat:'ملف الكلى',desc:''},
+    {id:18,code:'483',name:'Urea',price:60,cat:'ملف الكلى',desc:''},
+    {id:19,code:'486',name:'Uric',price:45,cat:'ملف الكلى',desc:'نقرس'},
+    {id:20,code:'127',name:'BUN',price:80,cat:'ملف الكلى',desc:''},
+    {id:21,code:'407',name:'Protein/CR ratio',price:120,cat:'ملف الكلى',desc:''},
+    {id:22,code:'487',name:'Urine analysis',price:25,cat:'ملف الكلى',desc:'أملاح'},
+    {id:23,code:'157',name:'CHOLESTEROL',price:55,cat:'ملف الدهون',desc:''},
+    {id:24,code:'476',name:'TRIGLYCERIDES',price:55,cat:'ملف الدهون',desc:''},
+    {id:25,code:'279',name:'HDL',price:40,cat:'ملف الدهون',desc:''},
+    {id:26,code:'326',name:'LDL',price:40,cat:'ملف الدهون',desc:''},
+    {id:27,code:'',name:'ملف الدهون كامل',price:150,cat:'ملف الدهون',desc:''},
+    {id:28,code:'114',name:'FBG',price:20,cat:'ملف السكر',desc:'سكر صايم 6-8'},
+    {id:29,code:'115',name:'PPBG',price:20,cat:'ملف السكر',desc:'سكر فاطر بعد 2'},
+    {id:30,code:'116',name:'RBG',price:25,cat:'ملف السكر',desc:'عشوائي'},
+    {id:31,code:'lab3',name:'HbA1c',price:120,cat:'ملف السكر',desc:'تراكمي'},
+    {id:32,code:'21',name:'AFP',price:145,cat:'الذكورة - أورام',desc:''},
+    {id:33,code:'149',name:'CEA',price:130,cat:'الذكورة - أورام',desc:''},
+    {id:34,code:'130',name:'CA-125',price:150,cat:'الذكورة - أورام',desc:''},
+    {id:35,code:'131',name:'CA-15.3',price:150,cat:'الذكورة - أورام',desc:''},
+    {id:36,code:'132',name:'CA-19.9',price:150,cat:'الذكورة - أورام',desc:''},
+    {id:37,code:'411',name:'PSA total',price:130,cat:'الذكورة - أورام',desc:'بروستاتا'},
+    {id:38,code:'410',name:'PSA free',price:150,cat:'الذكورة - أورام',desc:''},
+    {id:39,code:'480',name:'TSH',price:100,cat:'ملف الغدد',desc:'الغدة فقط'},
+    {id:40,code:'146',name:'T3 Total',price:90,cat:'ملف الغدد',desc:'مع 1 الغدد كلها'},
+    {id:41,code:'504',name:'T4 TOTAL',price:90,cat:'ملف الغدد',desc:'مع 1 الغدد كلها'},
+    {id:42,code:'505',name:'T3 FREE',price:100,cat:'ملف الغدد',desc:'حسب الطلب'},
+    {id:43,code:'149',name:'Free T4',price:100,cat:'ملف الغدد',desc:'حسب الطلب'},
+    {id:44,code:'82',name:'Anti TPO',price:250,cat:'ملف الغدد',desc:''},
+    {id:45,code:'83',name:'Anti-thyroglobulin',price:220,cat:'ملف الغدد',desc:''},
+    {id:46,code:'458',name:'Thyroglobulin',price:265,cat:'ملف الغدد',desc:''},
+    {id:47,code:'481',name:'TRAB',price:500,cat:'ملف الغدد',desc:''},
+    {id:48,code:'185',name:'CRP',price:70,cat:'ملف الأمصال',desc:''},
+    {id:49,code:'426',name:'RF',price:70,cat:'ملف الأمصال',desc:'روماتويد'},
+    {id:50,code:'89',name:'ASO',price:70,cat:'ملف الأمصال',desc:'سيحي'},
+    {id:51,code:'124',name:'Brucella',price:70,cat:'ملف الأمصال',desc:'بروسيلا'},
+    {id:52,code:'497',name:'WIDAL',price:70,cat:'ملف الأمصال',desc:'تيفود'},
+    {id:53,code:'107',name:'Bilharizia',price:120,cat:'ملف الأمصال',desc:'بلهارسيا'},
+    {id:54,code:'293',name:'HIV Ab',price:85,cat:'ملف الفيروسات',desc:'فيروس A'},
+    {id:55,code:'277',name:'HBS Ag',price:85,cat:'ملف الفيروسات',desc:'فيروس B'},
+    {id:56,code:'278',name:'HCV ab',price:85,cat:'ملف الفيروسات',desc:'فيروس C'},
+    {id:57,code:'270',name:'HAV IgM',price:190,cat:'ملف الفيروسات',desc:''},
+    {id:58,code:'269',name:'HAV IgG',price:190,cat:'ملف الفيروسات',desc:''},
+    {id:59,code:'419',name:'HBV-DNA PCR',price:400,cat:'ملف الفيروسات',desc:''},
+    {id:60,code:'421',name:'HCV-RNA PCR',price:400,cat:'ملف الفيروسات',desc:''},
+    {id:61,code:'246',name:'FSH',price:100,cat:'تحاليل الخصوبة',desc:'هرمون للنساء'},
+    {id:62,code:'341',name:'LH',price:100,cat:'تحاليل الخصوبة',desc:'العقم والخصوبة'},
+    {id:63,code:'218',name:'E2',price:100,cat:'تحاليل الخصوبة',desc:'هرمون للنساء'},
+    {id:64,code:'398',name:'Progesterone',price:120,cat:'تحاليل الخصوبة',desc:'البروجسترون'},
+    {id:65,code:'455',name:'Testosterone total',price:100,cat:'تحاليل الخصوبة',desc:'هرمون الذكورة'},
+    {id:66,code:'454',name:'Testosterone free',price:120,cat:'تحاليل الخصوبة',desc:'هرمون الذكورة'},
+    {id:67,code:'33',name:'AMH',price:400,cat:'تحاليل الخصوبة',desc:'هرمون للنساء'},
+    {id:68,code:'103',name:'B-HCG',price:110,cat:'تحاليل الخصوبة',desc:'حمل رقمي'},
+    {id:69,code:'400',name:'Prolactin',price:100,cat:'تحاليل الخصوبة',desc:'هرمون الحليب'},
+    {id:70,code:'324',name:'LDH',price:85,cat:'ملف القلب',desc:''},
+    {id:71,code:'161',name:'CK total',price:95,cat:'ملف القلب',desc:''},
+    {id:72,code:'162',name:'CK-MB',price:100,cat:'ملف القلب',desc:''},
+    {id:73,code:'478',name:'Troponin I',price:275,cat:'ملف القلب',desc:''},
+    {id:74,code:'39',name:'ANA',price:175,cat:'المناعة الذاتية',desc:'الأجسام المضادة'},
+    {id:75,code:'51',name:'Anti ds DNA',price:175,cat:'المناعة الذاتية',desc:'مرض الذئبة'},
+    {id:76,code:'169',name:'C3',price:130,cat:'المناعة الذاتية',desc:''},
+    {id:77,code:'170',name:'C4',price:130,cat:'المناعة الذاتية',desc:''},
+    {id:78,code:'49',name:'Anti-CCP',price:230,cat:'المناعة الذاتية',desc:''},
+    {id:79,code:'438',name:'NA - صوديوم',price:65,cat:'ملف المعادن',desc:'صوديوم'},
+    {id:80,code:'391',name:'K - بوتاسيوم',price:65,cat:'ملف المعادن',desc:'بوتاسيوم'},
+    {id:81,code:'137',name:'CA - كالسيوم',price:60,cat:'ملف المعادن',desc:'كالسيوم'},
+    {id:82,code:'136',name:'CA FREE',price:70,cat:'ملف المعادن',desc:''},
+    {id:83,code:'386',name:'PH - فسفور',price:65,cat:'ملف المعادن',desc:'فسفور'},
+    {id:84,code:'344',name:'MG - ماغنسيوم',price:65,cat:'ملف المعادن',desc:'ماغنسيوم'},
+    {id:85,code:'502',name:'Zink - زنك',price:150,cat:'ملف المعادن',desc:'الزنك'},
+    {id:86,code:'316',name:'Iron - حديد',price:75,cat:'ملف المعادن',desc:'الحديد'},
+    {id:87,code:'',name:'Stool analysis',price:25,cat:'ملف البراز',desc:''},
+    {id:88,code:'362',name:'Occult blood',price:150,cat:'ملف البراز',desc:'الدم الخفي'},
+    {id:89,code:'283',name:'H.pylori Ag',price:100,cat:'ملف البراز',desc:'جرثومة المعدة'},
+    {id:90,code:'140',name:'Calprotectin',price:375,cat:'ملف البراز',desc:''},
+    {id:91,code:'216',name:'ESR',price:35,cat:'تحاليل مختلفة',desc:'سرعة ترسيب'},
+    {id:92,code:'492',name:'Vitamine D',price:300,cat:'تحاليل مختلفة',desc:''},
+    {id:93,code:'235',name:'Ferritin',price:110,cat:'تحاليل مختلفة',desc:'مخزون الحديد'},
+    {id:94,code:'297',name:'HOMA-IR',price:150,cat:'تحاليل مختلفة',desc:'مقاومة أنسولين'},
+    {id:95,code:'284',name:'Hemoglobin Hb',price:30,cat:'تحاليل مختلفة',desc:'هيموجلوبين'},
+    {id:96,code:'113',name:'Blood gases',price:275,cat:'تحاليل مختلفة',desc:''},
+    {id:97,code:'395',name:'Pregnancy test',price:55,cat:'تحاليل مختلفة',desc:'الحمل العادي'},
+    {id:98,code:'90',name:'BLOOD CULTURE',price:350,cat:'المزارع',desc:'مزرعة دم'},
+    {id:99,code:'190',name:'Culture & sensitivity',price:130,cat:'المزارع',desc:'مزرعة بول'},
+    {id:100,code:'188',name:'Body fluid examination',price:200,cat:'المزارع',desc:''},
+    {id:101,code:'434',name:'Semen Examination',price:165,cat:'المزارع',desc:''},
+    {id:102,code:'492',name:'Vitamin B12',price:180,cat:'تحاليل مختلفة',desc:''},
+  ];
+}
+
+function getDefaultServices(){
+  return [
+    {id:1,num:'1',name:'CUSTOM MADE FIBER POST',dept:'عيادة الأسنان - تركيبات',price:1900},
+    {id:2,num:'2',name:'CUSTOM MADE METAL POST',dept:'عيادة الأسنان - تركيبات',price:900},
+    {id:3,num:'3',name:'تركيب ربع طقم متحرك 3',dept:'عيادة الأسنان - تركيبات',price:3000},
+    {id:4,num:'4',name:'تركيب طقم متحرك 12',dept:'عيادة الأسنان - تركيبات',price:12000},
+    {id:5,num:'5',name:'تركيب نصف طقم متحرك 4',dept:'عيادة الأسنان - تركيبات',price:4000},
+    {id:6,num:'6',name:'تركيب نصف طقم متحرك 6',dept:'عيادة الأسنان - تركيبات',price:6000},
+    {id:7,num:'7',name:'تركيبه إي-ماكس صغير',dept:'عيادة الأسنان - تركيبات',price:2500},
+    {id:8,num:'8',name:'تركيبه إي-ماكس وسط',dept:'عيادة الأسنان - تركيبات',price:2700},
+    {id:9,num:'9',name:'تركيبه إي-ماكس كبير',dept:'عيادة الأسنان - تركيبات',price:3000},
+    {id:10,num:'10',name:'تركيبه بورسلين',dept:'عيادة الأسنان - تركيبات',price:900},
+    {id:11,num:'11',name:'تركيبه زولد',dept:'عيادة الأسنان - تركيبات',price:1700},
+    {id:12,num:'12',name:'تركيبه زيركون',dept:'عيادة الأسنان - تركيبات',price:1600},
+    {id:13,num:'13',name:'تركيبه زيركون وسط',dept:'عيادة الأسنان - تركيبات',price:1300},
+    {id:14,num:'14',name:'تنظيف طقم متحرك',dept:'عيادة الأسنان - تركيبات',price:1000},
+    {id:15,num:'15',name:'زيركون كفاءة',dept:'عيادة الأسنان - تركيبات',price:2100},
+    {id:16,num:'16',name:'تقويم 25 سنة',dept:'عيادة الأسنان - تقويمات',price:25000},
+    {id:17,num:'17',name:'face mask',dept:'عيادة الأسنان - تقويمات',price:7000},
+    {id:18,num:'18',name:'FIXED RETAINER',dept:'عيادة الأسنان - تقويمات',price:1500},
+    {id:19,num:'19',name:'NANCE APPLIANCE',dept:'عيادة الأسنان - تقويمات',price:1500},
+    {id:20,num:'20',name:'RETAINER',dept:'عيادة الأسنان - تقويمات',price:1500},
+    {id:21,num:'21',name:'SPACE REGAINER',dept:'عيادة الأسنان - تقويمات',price:2500},
+    {id:22,num:'22',name:'SPACE REGAINER صغير',dept:'عيادة الأسنان - تقويمات',price:1500},
+    {id:23,num:'23',name:'TONGUE CRIB صغير',dept:'عيادة الأسنان - تقويمات',price:2000},
+    {id:24,num:'24',name:'TONGUE CRIB وسط',dept:'عيادة الأسنان - تقويمات',price:2300},
+    {id:25,num:'25',name:'TONGUE CRIB كبير',dept:'عيادة الأسنان - تقويمات',price:4500},
+    {id:26,num:'26',name:'TPA',dept:'عيادة الأسنان - تقويمات',price:1600},
+    {id:27,num:'27',name:'TWIN BLOCK',dept:'عيادة الأسنان - تقويمات',price:5000},
+    {id:28,num:'28',name:'vacuum RETAINER كبير',dept:'عيادة الأسنان - تقويمات',price:1500},
+    {id:29,num:'29',name:'vacuum retainer صغير',dept:'عيادة الأسنان - تقويمات',price:750},
+    {id:30,num:'30',name:'باند تقويم',dept:'عيادة الأسنان - تقويمات',price:300},
+    {id:31,num:'31',name:'براكت تقويم',dept:'عيادة الأسنان - تقويمات',price:300},
+    {id:32,num:'32',name:'تقويم 14',dept:'عيادة الأسنان - تقويمات',price:14000},
+    {id:33,num:'33',name:'تقويم 15',dept:'عيادة الأسنان - تقويمات',price:15000},
+    {id:34,num:'34',name:'تقويم 16',dept:'عيادة الأسنان - تقويمات',price:16000},
+    {id:35,num:'35',name:'تقويم 17',dept:'عيادة الأسنان - تقويمات',price:17000},
+    {id:36,num:'36',name:'تقويم 18',dept:'عيادة الأسنان - تقويمات',price:18000},
+    {id:37,num:'37',name:'تقويم 19',dept:'عيادة الأسنان - تقويمات',price:19000},
+    {id:38,num:'38',name:'تقويم 20',dept:'عيادة الأسنان - تقويمات',price:20000},
+    {id:39,num:'43',name:'تقويم عادي',dept:'عيادة الأسنان - تقويمات',price:3500},
+    {id:40,num:'54',name:'MTA PULPTMY',dept:'عيادة الأسنان - خدمات',price:1100},
+    {id:41,num:'55',name:'NIGHT GUARD',dept:'عيادة الأسنان - خدمات',price:1500},
+    {id:42,num:'56',name:'pit and fissure sealent',dept:'عيادة الأسنان - خدمات',price:200},
+    {id:43,num:'57',name:'SDF للم',dept:'عيادة الأسنان - خدمات',price:150},
+    {id:44,num:'58',name:'TMJ SPLINT',dept:'عيادة الأسنان - خدمات',price:1500},
+    {id:45,num:'59',name:'إزاله تركيبه صغير',dept:'عيادة الأسنان - خدمات',price:100},
+    {id:46,num:'60',name:'إزاله تركيبه وسط',dept:'عيادة الأسنان - خدمات',price:150},
+    {id:47,num:'61',name:'إزاله تركيبه كبير',dept:'عيادة الأسنان - خدمات',price:200},
+    {id:48,num:'62',name:'إزاله لحمية جلدية جراحيا',dept:'عيادة الأسنان - خدمات',price:1000},
+    {id:49,num:'75',name:'فك غرز خارج العيادة',dept:'عيادة الأسنان - خدمات',price:70},
+    {id:50,num:'76',name:'فلورايد',dept:'عيادة الأسنان - خدمات',price:200},
+    {id:51,num:'77',name:'لصق تركيبه رايزن سيمنت 3-4 وحدات',dept:'عيادة الأسنان - خدمات',price:300},
+    {id:52,num:'78',name:'لصق تركيبه رايزن سيمنت 1-2 وحده',dept:'عيادة الأسنان - خدمات',price:300},
+    {id:53,num:'84',name:'اعاده حشو يضف لثمن الحشو',dept:'عيادة الأسنان - حشو',price:550},
+    {id:54,num:'85',name:'اوفرلاى كبير',dept:'عيادة الأسنان - حشو',price:1000},
+    {id:55,num:'86',name:'اوفرلاى وسط',dept:'عيادة الأسنان - حشو',price:800},
+    {id:56,num:'87',name:'اوفرلاى صغير',dept:'عيادة الأسنان - حشو',price:900},
+    {id:57,num:'88',name:'بالوسيراميك',dept:'عيادة الأسنان - حشو',price:300},
+    {id:58,num:'89',name:'حالات MTA تحت الحشو',dept:'عيادة الأسنان - حشو',price:200},
+    {id:59,num:'90',name:'حشو بلاتين بسيط',dept:'عيادة الأسنان - حشو',price:350},
+    {id:60,num:'91',name:'حشو بلاتين مركب',dept:'عيادة الأسنان - حشو',price:400},
+    {id:61,num:'92',name:'حشو ضرس العقل',dept:'عيادة الأسنان - حشو',price:7520},
+    {id:62,num:'93',name:'حشو على اطفال',dept:'عيادة الأسنان - حشو',price:300},
+    {id:63,num:'98',name:'حشو عصب تكليل كمبوزيت بديل للطربوش',dept:'عيادة الأسنان - حشو',price:2000},
+    {id:64,num:'105',name:'حشو فوجي أو ريلا بسيط',dept:'عيادة الأسنان - حشو',price:500},
+    {id:65,num:'106',name:'حشو فوجي أو ريلا مركب',dept:'عيادة الأسنان - حشو',price:500},
+    {id:66,num:'112',name:'خلع جراحي كبير',dept:'عيادة الأسنان - خلع',price:700},
+    {id:67,num:'119',name:'خلع اطفال بدون بنج',dept:'عيادة الأسنان - خلع',price:20},
+    {id:68,num:'120',name:'خلع اطفال بدون بنج',dept:'عيادة الأسنان - خلع',price:90},
+    {id:69,num:'123',name:'خلع اطفال',dept:'عيادة الأسنان - خلع',price:100},
+    {id:70,num:'124',name:'خلع جذور ضرس عقل صغير',dept:'عيادة الأسنان - خلع',price:300},
+    {id:71,num:'125',name:'خلع جذور ضرس عقل وسط',dept:'عيادة الأسنان - خلع',price:400},
+    {id:72,num:'126',name:'خلع جذور ضرس عقل كبير',dept:'عيادة الأسنان - خلع',price:450},
+    {id:73,num:'128',name:'خلع جراحي صغير',dept:'عيادة الأسنان - خلع',price:1000},
+    {id:74,num:'129',name:'خلع جراحي كبير',dept:'عيادة الأسنان - خلع',price:1400},
+    {id:75,num:'138',name:'خلع ضرس عقل صغير',dept:'عيادة الأسنان - خلع',price:1000},
+    {id:76,num:'139',name:'خلع ضرس عقل كبير',dept:'عيادة الأسنان - خلع',price:1100},
+    {id:77,num:'182',name:'inbody',dept:'طوارئ',price:60},
+    {id:78,num:'183',name:'اختبار حساسية 15',dept:'طوارئ',price:15},
+    {id:79,num:'184',name:'اختبار حساسيه + حقنه 20',dept:'طوارئ',price:20},
+    {id:80,num:'185',name:'تركيب كانيولا 30',dept:'طوارئ',price:30},
+    {id:81,num:'186',name:'تركيب كانيولا حضانه 30',dept:'طوارئ',price:30},
+    {id:82,num:'187',name:'تطعيم ماتريكس',dept:'طوارئ',price:1440},
+    {id:83,num:'188',name:'تقرير طبي',dept:'طوارئ',price:25},
+    {id:84,num:'189',name:'جلسه محاليل استقبال',dept:'طوارئ',price:60},
+    {id:85,num:'190',name:'جلسه محلول جديد',dept:'طوارئ',price:200},
+    {id:86,num:'191',name:'جلسه مرذاذ حضانه',dept:'طوارئ',price:200},
+    {id:87,num:'192',name:'جلسه مرذاذ نيبولايزر',dept:'طوارئ',price:50},
+    {id:88,num:'193',name:'حقنه عضل أو وريد',dept:'طوارئ',price:20},
+    {id:89,num:'194',name:'ساعه استنشاق أكسجين',dept:'طوارئ',price:35},
+    {id:90,num:'195',name:'غسيل أنف أطفال',dept:'طوارئ',price:30},
+    {id:91,num:'196',name:'قياس سكر',dept:'طوارئ',price:20},
+    {id:92,num:'197',name:'إزاله دعامه',dept:'أنف وأذن وحنجرة',price:150},
+    {id:93,num:'198',name:'استخراج جسم غريب أذن أو أنف',dept:'أنف وأذن وحنجرة',price:100},
+    {id:94,num:'199',name:'استخراج جسم غريب - منظار',dept:'أنف وأذن وحنجرة',price:150},
+    {id:95,num:'201',name:'تركيب دعامه أنف',dept:'أنف وأذن وحنجرة',price:150},
+    {id:96,num:'202',name:'حشو أذن',dept:'أنف وأذن وحنجرة',price:80},
+    {id:97,num:'203',name:'حشو أنف',dept:'أنف وأذن وحنجرة',price:150},
+    {id:98,num:'205',name:'حقن كورتيزون أذن',dept:'أنف وأذن وحنجرة',price:150},
+    {id:99,num:'206',name:'رد خلع فك',dept:'أنف وأذن وحنجرة',price:250},
+    {id:100,num:'207',name:'رد كسر أنف',dept:'أنف وأذن وحنجرة',price:250},
+    {id:101,num:'208',name:'شفط أذن',dept:'أنف وأذن وحنجرة',price:100},
+    {id:102,num:'209',name:'شفط أذنين',dept:'أنف وأذن وحنجرة',price:130},
+    {id:103,num:'210',name:'غسيل أذن',dept:'أنف وأذن وحنجرة',price:100},
+    {id:104,num:'211',name:'غسيل أذنين',dept:'أنف وأذن وحنجرة',price:130},
+    {id:105,num:'213',name:'فتح خراج باللوز',dept:'أنف وأذن وحنجرة',price:200},
+    {id:106,num:'214',name:'فحص منظار تشخيصي حنجري',dept:'أنف وأذن وحنجرة',price:120},
+    {id:107,num:'216',name:'كي أنف',dept:'أنف وأذن وحنجرة',price:150},
+    {id:108,num:'218',name:'تطعيم الانفلونزا',dept:'عيادة الأطفال',price:370},
+    {id:109,num:'219',name:'تطعيم الروتا',dept:'عيادة الأطفال',price:646},
+    {id:110,num:'220',name:'تطعيم سينفلوريكس',dept:'عيادة الأطفال',price:692},
+    {id:111,num:'221',name:'تطعيم ماتريكس 72',dept:'عيادة الأطفال',price:404},
+    {id:112,num:'222',name:'تطعيم ماتريكس 1440',dept:'عيادة الأطفال',price:350},
+    {id:113,num:'223',name:'إيكو أطفال',dept:'باطنة وقلب',price:600},
+    {id:114,num:'224',name:'إيكو',dept:'باطنة وقلب',price:350},
+    {id:115,num:'225',name:'تقرير رسم قلب',dept:'باطنة وقلب',price:70},
+    {id:116,num:'226',name:'رسم قلب',dept:'باطنة وقلب',price:100},
+    {id:117,num:'228',name:'هولتر ثلاثة أيام',dept:'باطنة وقلب',price:650},
+    {id:118,num:'229',name:'هولتر يوم',dept:'باطنة وقلب',price:400},
+    {id:119,num:'230',name:'هولتر يومين',dept:'باطنة وقلب',price:550},
+    {id:120,num:'231',name:'أبوحسيبه',dept:'تخاطب',price:300},
+    {id:121,num:'232',name:'اختبار الذكاء',dept:'تخاطب',price:300},
+    {id:122,num:'233',name:'اختبار النطق',dept:'تخاطب',price:200},
+    {id:123,num:'235',name:'باقة تخاطب 6 جلسات',dept:'تخاطب',price:420},
+    {id:124,num:'238',name:'جلسه تخاطب منفرده',dept:'تخاطب',price:80},
+    {id:125,num:'244',name:'باقة تغذية',dept:'تغذية علاجية',price:350},
+    {id:126,num:'245',name:'باقة تلتيت',dept:'تغذية علاجية',price:750},
+    {id:127,num:'246',name:'جلسه تلتيت دهون منفرده',dept:'تغذية علاجية',price:150},
+    {id:128,num:'247',name:'حقن ميزوثيرابي تلتيت دهون',dept:'تغذية علاجية',price:300},
+    {id:129,num:'248',name:'إزاله جلدية',dept:'جراحة عامة',price:300},
+    {id:130,num:'249',name:'إزاله عين سمكة - مخدر موضعي',dept:'جراحة عامة',price:170},
+    {id:131,num:'250',name:'إزاله قسطرة وريدية',dept:'جراحة عامة',price:50},
+    {id:132,num:'251',name:'إزاله كيس شمعي',dept:'جراحة عامة',price:250},
+    {id:133,num:'254',name:'استئصال ورم حميد - كيس دهني صغير',dept:'جراحة عامة',price:350},
+    {id:134,num:'255',name:'استئصال ورم حميد - كيس دهني كبير',dept:'جراحة عامة',price:500},
+    {id:135,num:'265',name:'غرز جراحية',dept:'جراحة عامة',price:150},
+    {id:136,num:'269',name:'فتح خراج صغير',dept:'جراحة عامة',price:120},
+    {id:137,num:'273',name:'فتح خراج كبير',dept:'جراحة عامة',price:300},
+    {id:138,num:'280',name:'فك غرز',dept:'جراحة عامة',price:300},
+    {id:139,num:'282',name:'أخذ عينه من الجلد نسيجيا',dept:'جلدية وتجميل',price:250},
+    {id:140,num:'283',name:'إزاله زوائد جلدية',dept:'جلدية وتجميل',price:300},
+    {id:141,num:'284',name:'إزاله زوائد لحمية',dept:'جلدية وتجميل',price:100},
+    {id:142,num:'286',name:'تشفير',dept:'جلدية وتجميل',price:150},
+    {id:143,num:'287',name:'تشفير وتنظيف بشره',dept:'جلدية وتجميل',price:200},
+    {id:144,num:'288',name:'تنظيف بشره',dept:'جلدية وتجميل',price:100},
+    {id:145,num:'297',name:'كي 1-3 تلاليل',dept:'جلدية وتجميل',price:40},
+    {id:146,num:'298',name:'كي 3-5 تلاليل',dept:'جلدية وتجميل',price:100},
+    {id:147,num:'299',name:'كي أكثر من 10',dept:'جلدية وتجميل',price:170},
+    {id:148,num:'300',name:'كي كهربا',dept:'جلدية وتجميل',price:300},
+    {id:149,num:'304',name:'استخراج جسم غريب من العين',dept:'عيون',price:200},
+    {id:150,num:'305',name:'غسيل وتوسيع المجاري الدمعية',dept:'عيون',price:150},
+    {id:151,num:'306',name:'فتح نمل بالعين',dept:'عيون',price:120},
+    {id:152,num:'307',name:'فحص قاع العين',dept:'عيون',price:150},
+    {id:153,num:'308',name:'قياس ضغط العين',dept:'عيون',price:80},
+    {id:154,num:'311',name:'كشف نظارة كمبيوتر',dept:'عيون',price:180},
+    {id:155,num:'313',name:'بزل مفصل',dept:'عظام',price:220},
+    {id:156,num:'314',name:'بنطلون جبس',dept:'عظام',price:400},
+    {id:157,num:'315',name:'جبس تحت ركبه',dept:'عظام',price:220},
+    {id:158,num:'316',name:'جبس فوق ركبة للبالغين',dept:'عظام',price:250},
+    {id:159,num:'318',name:'جبيره تحت الكوع',dept:'عظام',price:200},
+    {id:160,num:'319',name:'جبيره فوق الكوع',dept:'عظام',price:220},
+    {id:161,num:'320',name:'حقن بلازما بالمفصل',dept:'عظام',price:220},
+    {id:162,num:'321',name:'رد كسر بدون جبس',dept:'عظام',price:200},
+    {id:163,num:'322',name:'رد كسر مع جبس',dept:'عظام',price:300},
+    {id:164,num:'323',name:'رفع جبس',dept:'عظام',price:90},
+    {id:165,num:'324',name:'فك دبابيس',dept:'عظام',price:100},
+    {id:166,num:'325',name:'باقة علاج طبيعي أطفال 6ج ساعتين',dept:'علاج طبيعي',price:1200},
+    {id:167,num:'326',name:'باقة علاج طبيعي أطفال 6ج ساعة ونص',dept:'علاج طبيعي',price:900},
+    {id:168,num:'327',name:'باقة علاج طبيعي أطفال 6ج',dept:'علاج طبيعي',price:600},
+    {id:169,num:'328',name:'باقة علاج طبيعي كبار 6ج',dept:'علاج طبيعي',price:600},
+    {id:170,num:'329',name:'باقة ليزر',dept:'علاج طبيعي',price:900},
+    {id:171,num:'333',name:'جلسه حجامه',dept:'علاج طبيعي',price:400},
+    {id:172,num:'334',name:'جلسه علاج أطفال ساعتين مؤسسه',dept:'علاج طبيعي',price:200},
+    {id:173,num:'335',name:'جلسه علاج أطفال ساعه مؤسسه',dept:'علاج طبيعي',price:100},
+    {id:174,num:'337',name:'جلسه علاج طبيعي منفرده كبار',dept:'علاج طبيعي',price:120},
+    {id:175,num:'338',name:'جلسه علاج كبار مؤسسه',dept:'علاج طبيعي',price:100},
+    {id:176,num:'339',name:'جلسه ليزر مؤسسه',dept:'علاج طبيعي',price:150},
+    {id:177,num:'340',name:'جلسه ليزر منفرده',dept:'علاج طبيعي',price:180},
+    {id:178,num:'343',name:'إزاله قسطره بولية',dept:'مسالك بولية',price:50},
+    {id:179,num:'344',name:'تركيب قسطره',dept:'مسالك بولية',price:250},
+    {id:180,num:'346',name:'غسيل مثانه',dept:'مسالك بولية',price:350},
+    {id:181,num:'347',name:'إزاله زائده جلدية مهبلية',dept:'نساء وتوليد',price:300},
+    {id:182,num:'348',name:'تركيب حلقة مهبلية سيلكون',dept:'نساء وتوليد',price:300},
+    {id:183,num:'349',name:'تركيب كبسوله منع حمل',dept:'نساء وتوليد',price:300},
+    {id:184,num:'350',name:'تركيب لولب هرموني',dept:'نساء وتوليد',price:450},
+    {id:185,num:'351',name:'تركيب لولب عادي',dept:'نساء وتوليد',price:200},
+    {id:186,num:'352',name:'جهاز قياس نبض الجنين',dept:'نساء وتوليد',price:150},
+    {id:187,num:'353',name:'جهاز مراقبه الجنين والانقباضات',dept:'نساء وتوليد',price:170},
+    {id:188,num:'354',name:'فك غرز نسا',dept:'نساء وتوليد',price:100},
+    {id:189,num:'355',name:'متابعه تبويض - 3 جلسات',dept:'نساء وتوليد',price:150},
+    {id:190,num:'356',name:'مسحة مهبلية',dept:'نساء وتوليد',price:120},
+    {id:191,num:'357',name:'نزع كبسوله نوربلانت',dept:'نساء وتوليد',price:200},
+    {id:192,num:'358',name:'نزع لولب',dept:'نساء وتوليد',price:100},
+    {id:193,num:'359',name:'اختبار حباسية حضانه',dept:'وحدة الحضانات',price:15},
+    {id:194,num:'360',name:'إعادة حضانه',dept:'وحدة الحضانات',price:50},
+    {id:195,num:'361',name:'إقامه حضانه يوم واحد',dept:'وحدة الحضانات',price:50},
+    {id:196,num:'365',name:'جهاز نازل أكسجين',dept:'وحدة الحضانات',price:700},
+    {id:197,num:'368',name:'علاج صفراء ضوئي ثلاثي يوم',dept:'وحدة الحضانات',price:650},
+    {id:198,num:'369',name:'علاج صفراء ضوئي ثنائي يوم',dept:'وحدة الحضانات',price:700},
+    {id:199,num:'370',name:'علاج صفراء ضوئي فردي يوم',dept:'وحدة الحضانات',price:750},
+    {id:200,num:'371',name:'على جهاز الأكسجين هاي فلو',dept:'وحدة الحضانات',price:850},
+    {id:201,num:'372',name:'على جهاز السبب CPAPA',dept:'وحدة الحضانات',price:850},
+    {id:202,num:'373',name:'على جهاز تنفس صناعي فينتيلايتور',dept:'وحدة الحضانات',price:900},
+    {id:203,num:'375',name:'كشف حضانه',dept:'وحدة الحضانات',price:90},
+    {id:204,num:'376',name:'كبسولة',dept:'وحدة الحضانات',price:400},
+    {id:205,num:'377',name:'منظار حنجري حضانه',dept:'وحدة الحضانات',price:1200},
+  ];
+}
+
+// =============================================
+// CONSULTATION PRICES
+// =============================================
+const consultPrices = [
+  {dept:'الأطفال وحديثي الولادة', price:90},
+  {dept:'الباطنة العامة / الكبد / الجهاز الهضمي / الغدد الصماء والسكر', price:90},
+  {dept:'جراحة عامة / جراحة هضمي / الأوعية الدموية / جراحة الأطفال', price:90},
+  {dept:'العظام والمفاصل والعمود الفقري', price:90},
+  {dept:'الباطنة والكلى', price:90},
+  {dept:'الجلدية والتناسلية', price:90},
+  {dept:'القلب والأوعية الدموية', price:90},
+  {dept:'المسالك البولية', price:90},
+  {dept:'أمراض النساء والتوليد', price:90},
+  {dept:'الروماتيزم وأمراض المفاصل والمناعة', price:90},
+  {dept:'الصدر والحساسية', price:90},
+  {dept:'الرمد (شامل كشف النظارة)', price:90},
+  {dept:'جراحة المخ والأعصاب / الطب النفسي', price:90},
+  {dept:'الأنف والأذن والحنجرة بالمنظار', price:90},
+  {dept:'التخاطب', price:90},
+  {dept:'أمراض الدم', price:90},
+  {dept:'التغذية العلاجية', price:150, note:'باقة'},
+  {dept:'العلاج الطبيعي - الأسنان', price:70, note:'علاج طبيعي'},
+  {dept:'كشف علاج طبيعي (محول من العيادات)', price:40},
+  {dept:'الإعادة لكافة العيادات (عدا الأسنان)', price:50},
+  {dept:'الإعادة بالتغذية العلاجية', price:75},
+  {dept:'إصدار تقرير خارجي بجميع العيادات', price:25},
+];
+
+function renderPrices(){
+  let h='';
+  consultPrices.forEach(p=>{
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:13px;font-weight:700">${p.dept}</div>
+        ${p.note?`<div style="font-size:11px;color:var(--gray)">${p.note}</div>`:''}
+      </div>
+      <div style="font-size:16px;font-weight:900;color:var(--primary);white-space:nowrap;margin-right:10px">${p.price} ج</div>
+    </div>`;
+  });
+  document.getElementById('pricesContainer').innerHTML=h;
+}
+
+// =============================================
+// PRINT SCHEDULE
+// =============================================
+let printDayFilter = '';
+
+function renderPrintSection(){
+  if(!printDayFilter) printDayFilter = todayKey();
+  document.getElementById('printDayChips').innerHTML = DKEYS.map((k,i)=>{
+    const cnt=doctors.filter(d=>d.days.includes(k)).length;
+    const isTod=k===todayKey();
+    return `<button class="chip ${printDayFilter===k?'on':''}" onclick="printDayFilter='${k}';renderPrintSection()">
+      ${isTod?'⭐ ':''}${DAYS[i]} (${cnt})</button>`;
+  }).join('');
+
+  const filtered=doctors.filter(d=>d.days.includes(printDayFilter));
+  const specs=[...new Set(filtered.map(d=>d.spec))].sort();
+  const dayName=DAYS[DKEYS.indexOf(printDayFilter)];
+
+  let h=`<div style="background:#e8f4fd;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:900;color:#1e40af">
+    📅 ${dayName} - ${filtered.length} دكتور</div>`;
+
+  specs.forEach(sp=>{
+    const sd=filtered.filter(d=>d.spec===sp);
+    h+=`<div style="margin-bottom:10px">
+      <div style="background:var(--primary);color:#fff;padding:7px 12px;border-radius:8px 8px 0 0;font-size:12px;font-weight:900">🏥 ${sp}</div>
+      <div style="border:2px solid var(--primary);border-top:none;border-radius:0 0 8px 8px">
+        ${sd.map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:13px;font-weight:900">${d.name}</div>
+            ${d.hours?`<div style="font-size:11px;color:var(--gray)">⏰ ${d.hours}</div>`:''}
+            ${d.note?`<div style="font-size:10px;color:var(--red)">${d.note}</div>`:''}
+          </div>
+          ${d.phone?`<a href="tel:${d.phone}" style="color:var(--primary2);font-size:20px;text-decoration:none">📞</a>`:''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('printContainer').innerHTML=h;
+}
+
+function printSchedule(type){
+  const w=window.open('','_blank');
+  let rows='';
+  if(type==='today'){
+    const tk=todayKey();
+    const filtered=doctors.filter(d=>d.days.includes(tk));
+    const specs=[...new Set(filtered.map(d=>d.spec))].sort();
+    rows=specs.map(sp=>{
+      const sd=filtered.filter(d=>d.spec===sp);
+      return `<h3 style="background:#1a3a5c;color:#fff;padding:6px 10px;border-radius:6px">${sp}</h3>
+        <table><tr><th>الدكتور</th><th>المواعيد</th><th>ملاحظات</th></tr>
+        ${sd.map(d=>`<tr><td>${d.name}</td><td>${d.hours||'-'}</td><td>${d.note||'-'}</td></tr>`).join('')}
+        </table>`;
+    }).join('');
+  } else {
+    rows=DAYS.map((day,i)=>{
+      const k=DKEYS[i];
+      const filtered=doctors.filter(d=>d.days.includes(k));
+      if(!filtered.length) return '';
+      const specs=[...new Set(filtered.map(d=>d.spec))].sort();
+      return `<h2 style="color:#1a3a5c;border-bottom:2px solid #1a3a5c;padding-bottom:4px">${day} (${filtered.length} دكتور)</h2>
+        ${specs.map(sp=>{
+          const sd=filtered.filter(d=>d.spec===sp);
+          return `<h4 style="background:#e8f4fd;padding:4px 8px">${sp}</h4>
+            <table><tr><th>الدكتور</th><th>المواعيد</th><th>ملاحظات</th></tr>
+            ${sd.map(d=>`<tr><td>${d.name}</td><td>${d.hours||'-'}</td><td>${d.note||'-'}</td></tr>`).join('')}
+            </table>`;
+        }).join('')}`;
+    }).join('');
+  }
+  w.document.write(`<html dir="rtl"><head><meta charset="UTF-8">
+    <style>body{font-family:Arial;padding:20px;font-size:13px}
+    h2{margin-top:20px}h3,h4{margin:8px 0}
+    table{width:100%;border-collapse:collapse;margin-bottom:10px}
+    td,th{padding:6px 8px;border:1px solid #ccc;text-align:right}
+    th{background:#1a3a5c;color:#fff}
+    @media print{button{display:none}}</style></head>
+    <body>
+    <h1 style="text-align:center;color:#1a3a5c">🏥 مجمع الإصلاح الطبي - جدول الدكاتره</h1>
+    <p style="text-align:center;color:#666">${new Date().toLocaleDateString('ar-EG')}</p>
+    ${rows}
+    <script>window.print();<\/script>
+    </body></html>`);
+}
+
+// =============================================
+// UPDATE GO FUNCTION FOR NEW TABS
+// =============================================
+
+// =============================================
+// INIT
+// =============================================
+renderHome();
+// Auto refresh bell every 3 min
+setInterval(updateBell, 180000);
+</script>
+</body>
+</html>
